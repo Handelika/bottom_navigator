@@ -1,4 +1,5 @@
 import 'package:example/colors.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navigator/bottom_navigator.dart';
@@ -287,7 +288,17 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildBottomBar() {
     final fab = FloatingActionButton(
-      onPressed: () {},
+      onPressed: () {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+              'Center fab clicked',
+              style: TextStyle(color: Colors.white),
+            ),
+            backgroundColor: BottomNavBarColors.electricBlue,
+          ),
+        );
+      },
       child: const FlutterLogo(),
     );
 
@@ -297,7 +308,7 @@ class _MainScreenState extends State<MainScreen> {
           items: _navItems,
           blurAmount: 5,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-          hideOnScroll: false,
+          hideOnScroll: true,
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,
           animationDuration: const Duration(milliseconds: 300),
@@ -337,7 +348,22 @@ class _MainScreenState extends State<MainScreen> {
           items: _navItems,
           blurAmount: 5,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-          centerButton: fab,
+          centerButton: IconButton.filled(
+            icon: const Icon(CupertinoIcons.camera),
+            color: Colors.white,
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text(
+                    'Center fab clicked',
+                    style: TextStyle(color: Colors.white),
+                  ),
+
+                  backgroundColor: BottomNavBarColors.electricBlue,
+                ),
+              );
+            },
+          ),
           hideOnScroll: false,
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,

@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
 import '../nav_item.dart';
 
 class NavMoreMenu extends StatelessWidget {
@@ -15,6 +13,7 @@ class NavMoreMenu extends StatelessWidget {
   final Color unselectedColor;
   final TextStyle? textStyle;
   final ValueChanged<int> onItemTap;
+  final bool isTablet;
 
   const NavMoreMenu({
     super.key,
@@ -28,6 +27,7 @@ class NavMoreMenu extends StatelessWidget {
     required this.unselectedColor,
     required this.textStyle,
     required this.onItemTap,
+    this.isTablet = false,
   });
 
   @override
@@ -35,14 +35,14 @@ class NavMoreMenu extends StatelessWidget {
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeOutBack,
-      bottom: isMoreOpen ? 80 : -200,
-      right: 0,
+      bottom: isMoreOpen ? (isTablet ? 110 : 80) : -400,
+      right: isTablet ? 40 : 0,
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 300),
         opacity: isMoreOpen ? 1 : 0,
         child: Container(
-          width: 150,
-          padding: const EdgeInsets.all(8),
+          width: isTablet ? 220 : 150,
+          padding: EdgeInsets.all(isTablet ? 12 : 8),
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(borderRadius),
@@ -70,9 +70,9 @@ class NavMoreMenu extends StatelessWidget {
                     behavior: HitTestBehavior.translucent,
                     onTap: isMoreOpen ? () => onItemTap(idx) : null,
                     child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 12,
-                        horizontal: 16,
+                      padding: EdgeInsets.symmetric(
+                        vertical: isTablet ? 16 : 12,
+                        horizontal: isTablet ? 20 : 16,
                       ),
                       color: isSelected
                           ? Colors.white.withValues(alpha: 0.1)
@@ -82,9 +82,9 @@ class NavMoreMenu extends StatelessWidget {
                           Icon(
                             item.icon,
                             color: isSelected ? selectedColor : unselectedColor,
-                            size: 20,
+                            size: isTablet ? 24 : 20,
                           ),
-                          const SizedBox(width: 12),
+                          SizedBox(width: isTablet ? 16 : 12),
                           Expanded(
                             child: Text(
                               item.label,
@@ -97,7 +97,7 @@ class NavMoreMenu extends StatelessWidget {
                                         color: isSelected
                                             ? selectedColor
                                             : unselectedColor,
-                                        fontSize: 14,
+                                        fontSize: isTablet ? 16 : 14,
                                         fontWeight: isSelected
                                             ? FontWeight.bold
                                             : FontWeight.normal,

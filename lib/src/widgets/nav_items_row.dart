@@ -17,6 +17,7 @@ class NavItemsRow extends StatelessWidget {
   final bool showLabels;
   final Duration animationDuration;
   final Curve iconCurve;
+  final bool isTablet;
   final TextStyle? textStyle;
   final Function(int, {bool closeMoreMenu}) onItemTapped;
   final VoidCallback onToggleMore;
@@ -38,6 +39,7 @@ class NavItemsRow extends StatelessWidget {
     required this.iconCurve,
     required this.onItemTapped,
     required this.onToggleMore,
+    this.isTablet = false,
     this.textStyle,
   });
 
@@ -45,12 +47,16 @@ class NavItemsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> children = [];
 
-    // Responsive scaling based on item width
-    final iconSize = (itemWidth * 0.38).clamp(20.0, 24.0).toDouble();
-    final selectedScale = showLabels ? 1.0 : 1.1;
-    final moreOpenScale = showLabels ? 1.06 : 1.2;
-    final labelSize = (itemWidth * 0.18).clamp(9.0, 11.0).toDouble();
-    final labelPadding = showLabels ? 2.0 : 4.0;
+    // Responsive scaling based on item width and device type
+    final iconSize = isTablet 
+        ? (itemWidth * 0.25).clamp(28.0, 32.0)
+        : (itemWidth * 0.38).clamp(20.0, 24.0);
+    final selectedScale = showLabels ? 1.0 : (isTablet ? 1.15 : 1.1);
+    final moreOpenScale = showLabels ? 1.06 : (isTablet ? 1.25 : 1.2);
+    final labelSize = isTablet
+        ? (itemWidth * 0.12).clamp(12.0, 14.0)
+        : (itemWidth * 0.18).clamp(9.0, 11.0);
+    final labelPadding = showLabels ? (isTablet ? 4.0 : 2.0) : (isTablet ? 6.0 : 4.0);
 
     for (int i = 0; i < displayItems.length; i++) {
       // Inject gap for external center button

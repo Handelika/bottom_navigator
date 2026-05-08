@@ -10,6 +10,7 @@ class NavCenterActionOverlays extends StatelessWidget {
   final bool hasExternalCenterButton;
   final EdgeInsets padding;
   final Function(int) onItemTapped;
+  final bool isTablet;
 
   const NavCenterActionOverlays({
     super.key,
@@ -19,6 +20,7 @@ class NavCenterActionOverlays extends StatelessWidget {
     required this.hasExternalCenterButton,
     required this.padding,
     required this.onItemTapped,
+    this.isTablet = false,
   });
 
   @override
@@ -37,7 +39,7 @@ class NavCenterActionOverlays extends StatelessWidget {
           Positioned(
             left: leftOffset + padding.left,
             width: itemWidth,
-            top: -22,
+            top: isTablet ? -28 : -22,
             child: Center(
               child: GestureDetector(
                 onTap: () {
@@ -45,10 +47,10 @@ class NavCenterActionOverlays extends StatelessWidget {
                   onItemTapped(i);
                 },
                 child: Container(
-                  width: 60,
-                  height: 60,
+                  width: isTablet ? 72 : 60,
+                  height: isTablet ? 72 : 60,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(isTablet ? 22 : 18),
                     gradient: LinearGradient(
                       colors: [
                         item.activeColor ??
@@ -75,7 +77,7 @@ class NavCenterActionOverlays extends StatelessWidget {
                   child: Center(
                     child:
                         item.customWidget ??
-                        const Icon(Icons.add, color: Colors.white, size: 28),
+                        Icon(Icons.add, color: Colors.white, size: isTablet ? 34 : 28),
                   ),
                 ),
               ),
