@@ -1,3 +1,4 @@
+import 'package:bottom_navigator/src/styles/nav_bar_indicator_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../nav_item.dart';
@@ -9,7 +10,6 @@ class NavItemsRow extends StatelessWidget {
   final int effectiveIndex;
   final bool isMoreOpen;
   final bool hasMore;
-  final double itemWidth;
   final Color selectedColor;
   final Color unselectedColor;
   final int midIndex;
@@ -19,6 +19,8 @@ class NavItemsRow extends StatelessWidget {
   final Curve iconCurve;
   final bool isTablet;
   final TextStyle? textStyle;
+  final IndicatorMetrics indicatorMetrics;
+  final List<Color>? indicatorColors;
   final Function(int, {bool closeMoreMenu}) onItemTapped;
   final VoidCallback onToggleMore;
 
@@ -29,7 +31,6 @@ class NavItemsRow extends StatelessWidget {
     required this.effectiveIndex,
     required this.isMoreOpen,
     required this.hasMore,
-    required this.itemWidth,
     required this.selectedColor,
     required this.unselectedColor,
     required this.midIndex,
@@ -37,6 +38,8 @@ class NavItemsRow extends StatelessWidget {
     required this.showLabels,
     required this.animationDuration,
     required this.iconCurve,
+    required this.indicatorMetrics,
+    required this.indicatorColors,
     required this.onItemTapped,
     required this.onToggleMore,
     this.isTablet = false,
@@ -47,21 +50,19 @@ class NavItemsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Widget> children = [];
 
-    // Responsive scaling based on item width and device type
-    final iconSize = isTablet 
-        ? (itemWidth * 0.25).clamp(28.0, 32.0)
-        : (itemWidth * 0.38).clamp(20.0, 24.0);
+    // Responsive scaling based on device type
+    final iconSize = isTablet ? 32.0 : 24.0;
     final selectedScale = showLabels ? 1.0 : (isTablet ? 1.15 : 1.1);
     final moreOpenScale = showLabels ? 1.06 : (isTablet ? 1.25 : 1.2);
-    final labelSize = isTablet
-        ? (itemWidth * 0.12).clamp(12.0, 14.0)
-        : (itemWidth * 0.18).clamp(9.0, 11.0);
-    final labelPadding = showLabels ? (isTablet ? 4.0 : 2.0) : (isTablet ? 6.0 : 4.0);
+    final labelSize = isTablet ? 14.0 : 10.0;
+    final labelPadding = showLabels
+        ? (isTablet ? 4.0 : 2.0)
+        : (isTablet ? 6.0 : 4.0);
 
     for (int i = 0; i < displayItems.length; i++) {
       // Inject gap for external center button
       if (hasExternalCenterButton && i == midIndex) {
-        children.add(SizedBox(width: itemWidth));
+        children.add(const Expanded(child: SizedBox.shrink()));
       }
 
       final isSelected = !isMoreOpen && effectiveIndex == i;
@@ -80,48 +81,101 @@ class NavItemsRow extends StatelessWidget {
               onItemTapped(i, closeMoreMenu: true);
             },
             behavior: HitTestBehavior.translucent,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                AnimatedContainer(
-                  duration: animationDuration,
-                  curve: iconCurve,
-                  transform: Matrix4.identity()
-                    ..scaleAdjoint(isSelected ? selectedScale : 1.0),
-                  transformAlignment: Alignment.center,
-                  child:
-                      item.customWidget ??
-                      Icon(
-                        item.icon,
-                        color: isSelected ? selectedColor : unselectedColor,
-                        size: iconSize,
-                      ),
-                ),
-                if (showLabels)
-                  AnimatedSize(
-                    duration: animationDuration,
-                    curve: iconCurve,
-                    child: isSelected
-                        ? Padding(
-                            padding: EdgeInsets.only(top: labelPadding),
-                            child: Text(
-                              item.label,
-                              style:
-                                  (textStyle ??
-                                          Theme.of(
-                                            context,
-                                          ).textTheme.bodyMedium!)
-                                      .copyWith(
-                                        color: selectedColor,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: labelSize,
-                                      ),
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 1,
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: isSelected ? 1 : 0,
+                  child: Padding(
+                    padding: indicatorMetrics.padding,
+                    child: AnimatedContainer(
+                      duration: animationDuration,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors: item.activeColor != null
+                              ? [
+                                  item.activeColor!,
+                                  item.activeColor!.withValues(alpha: 0.7),
+                                ]
+                              : (indicatorColors ??
+                                    [
+                                      Theme.of(context).colorScheme.primary,
+                                      Theme.of(context).colorScheme.primary
+                                          .withValues(alpha: 0.7),
+                                    ]),
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          indicatorMetrics.borderRadius,
+                        ),
+                        boxShadow: [
+                          if (indicatorMetrics.showGlow)
+                            BoxShadow(
+                              color:
+                                  (item.activeColor ??
+                                          indicatorColors?.first ??
+                                          Theme.of(context).colorScheme.primary)
+                                      .withValues(alpha: 0.3),
+                              blurRadius: 15,
+                              spreadRadius: -2,
+                              offset: const Offset(0, 4),
                             ),
-                          )
-                        : const SizedBox.shrink(),
+                        ],
+                      ),
+                    ),
                   ),
+                ),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AnimatedContainer(
+                        duration: animationDuration,
+                        curve: iconCurve,
+                        transform: Matrix4.identity()
+                          ..scaleAdjoint(isSelected ? selectedScale : 1.0),
+                        transformAlignment: Alignment.center,
+                        child:
+                            item.customWidget ??
+                            Icon(
+                              item.icon,
+                              color: isSelected
+                                  ? selectedColor
+                                  : unselectedColor,
+                              size: iconSize,
+                            ),
+                      ),
+                      if (showLabels)
+                        AnimatedSize(
+                          duration: animationDuration,
+                          curve: iconCurve,
+                          child: isSelected
+                              ? Padding(
+                                  padding: EdgeInsets.only(top: labelPadding),
+                                  child: Text(
+                                    item.label,
+                                    style:
+                                        (textStyle ??
+                                                Theme.of(
+                                                  context,
+                                                ).textTheme.bodyMedium!)
+                                            .copyWith(
+                                              color: selectedColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: labelSize,
+                                            ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                        ),
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
@@ -131,7 +185,7 @@ class NavItemsRow extends StatelessWidget {
 
     // Append the "More" button if the total item count exceeds the display threshold
     if (hasMore) {
-      final selectedExtraIndex = effectiveIndex - 3;
+      final selectedExtraIndex = effectiveIndex - displayItems.length;
       final selectedExtraItem =
           (selectedExtraIndex >= 0 && selectedExtraIndex < extraItems.length)
           ? extraItems[selectedExtraIndex]
@@ -146,43 +200,94 @@ class NavItemsRow extends StatelessWidget {
               onToggleMore();
             },
             behavior: HitTestBehavior.translucent,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Stack(
+              alignment: Alignment.center,
               children: [
-                AnimatedContainer(
-                  duration: animationDuration,
-                  curve: iconCurve,
-                  transform: Matrix4.identity()
-                    ..scaleAdjoint(
-                      isMoreOpen
-                          ? moreOpenScale
-                          : (isMoreSelected ? selectedScale : 1.0),
+                AnimatedOpacity(
+                  duration: const Duration(milliseconds: 200),
+                  opacity: isMoreSelected ? 1 : 0,
+                  child: Padding(
+                    padding: indicatorMetrics.padding,
+                    child: AnimatedContainer(
+                      duration: animationDuration,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          colors:
+                              indicatorColors ??
+                              [
+                                Theme.of(context).colorScheme.primary,
+                                Theme.of(
+                                  context,
+                                ).colorScheme.primary.withValues(alpha: 0.7),
+                              ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          indicatorMetrics.borderRadius,
+                        ),
+                        boxShadow: [
+                          if (indicatorMetrics.showGlow)
+                            BoxShadow(
+                              color:
+                                  (indicatorColors?.first ??
+                                          Theme.of(context).colorScheme.primary)
+                                      .withValues(alpha: 0.3),
+                              blurRadius: 15,
+                              spreadRadius: -2,
+                              offset: const Offset(0, 4),
+                            ),
+                        ],
+                      ),
                     ),
-                  transformAlignment: Alignment.center,
-                  child: Icon(
-                    isMoreOpen
-                        ? Icons.close
-                        : (selectedExtraItem?.icon ?? Icons.more_horiz_rounded),
-                    color: isMoreSelected ? selectedColor : unselectedColor,
-                    size: iconSize,
                   ),
                 ),
-                if (showLabels && isMoreSelected)
-                  Padding(
-                    padding: EdgeInsets.only(top: labelPadding),
-                    child: Text(
-                      selectedExtraItem?.label ?? 'More',
-                      style:
-                          (textStyle ?? Theme.of(context).textTheme.bodyMedium!)
-                              .copyWith(
-                                color: selectedColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: labelSize,
-                              ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      AnimatedContainer(
+                        duration: animationDuration,
+                        curve: iconCurve,
+                        transform: Matrix4.identity()
+                          ..scaleAdjoint(
+                            isMoreOpen
+                                ? moreOpenScale
+                                : (isMoreSelected ? selectedScale : 1.0),
+                          ),
+                        transformAlignment: Alignment.center,
+                        child: Icon(
+                          isMoreOpen
+                              ? Icons.close
+                              : (selectedExtraItem?.icon ??
+                                    Icons.more_horiz_rounded),
+                          color: isMoreSelected
+                              ? selectedColor
+                              : unselectedColor,
+                          size: iconSize,
+                        ),
+                      ),
+                      if (showLabels && isMoreSelected)
+                        Padding(
+                          padding: EdgeInsets.only(top: labelPadding),
+                          child: Text(
+                            selectedExtraItem?.label ?? 'More',
+                            style:
+                                (textStyle ??
+                                        Theme.of(context).textTheme.bodyMedium!)
+                                    .copyWith(
+                                      color: selectedColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: labelSize,
+                                    ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                    ],
                   ),
+                ),
               ],
             ),
           ),

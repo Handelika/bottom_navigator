@@ -124,7 +124,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final navTheme = theme.bottomNavigationBarTheme;
-    final colorScheme = theme.colorScheme;
     final themeColors = resolveNavBarThemeColors(
       theme: theme,
       navTheme: navTheme,
@@ -135,63 +134,68 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
     return LayoutBuilder(
       builder: (context, constraints) {
-        final bool hasMore = widget.items.length > 5;
+        final bool isFloating = widget.navBarStyle == NavBarStyle.floating;
+        final bool isNotched =
+            widget.centerButtonStyle == CenterButtonStyle.notched;
+        final int threshold = (isFloating || isNotched) ? 4 : 5;
+
+        final bool hasMore = widget.items.length > threshold;
         final List<BottomNavItem> displayItems = hasMore
-            ? widget.items.sublist(0, 3)
+            ? widget.items.sublist(0, (isFloating || isNotched) ? 3 : 4)
             : widget.items;
         final List<BottomNavItem> extraItems = hasMore
-            ? widget.items.sublist(3)
+            ? widget.items.sublist((isFloating || isNotched) ? 3 : 4)
             : [];
 
         final bool isTablet = NavLayoutUtils.isTablet(constraints.maxWidth);
         final bool isDocked = widget.navBarStyle == NavBarStyle.docked;
+        final screenSize = MediaQuery.of(context).size;
         final double barHeight = NavLayoutUtils.getBarHeight(
           isTablet: isTablet,
           isDocked: isDocked,
+          screenHeight: screenSize.height,
+          screenWidth: screenSize.width,
         );
         final double width = isDocked
             ? constraints.maxWidth
             : constraints.maxWidth -
-                NavLayoutUtils.getHorizontalMargin(
-                  widget.margin.horizontal,
-                  isTablet,
-                );
+                  NavLayoutUtils.getHorizontalMargin(
+                    widget.margin.horizontal,
+                    isTablet,
+                  );
 
         final hasExternalCenterButton = widget.centerButton != null;
-
-        // 2. Calculate slot-based widths and indices
-        final totalSlots = hasExternalCenterButton
-            ? (hasMore ? 4 : displayItems.length) + 1
-            : (hasMore ? 4 : displayItems.length);
 
         final horizontalPadding = NavLayoutUtils.getHorizontalPadding(
           widget.padding.horizontal,
           isTablet,
         );
 
-        final itemWidth = (width - horizontalPadding) / totalSlots;
-        final midIndex = ((hasMore ? 4 : displayItems.length) / 2).floor();
+        final sidePadding = horizontalPadding / 2;
+
+        final totalSlots =
+            (hasMore ? displayItems.length + 1 : displayItems.length) +
+            (hasExternalCenterButton ? 1 : 0);
+        final midIndex = (totalSlots / 2).floor();
 
         final indicatorMetrics = resolveIndicatorMetrics(
           style: resolveEffectiveIndicatorStyle(
             showLabels: widget.showLabels,
             preferredStyle: widget.indicatorStyle,
           ),
-          itemWidth: itemWidth,
+          barHeight: barHeight,
           isTablet: isTablet,
+          showLabels: widget.showLabels,
         );
-
-        final indicatorIndex =
-            (hasMore && (_isMoreOpen || _effectiveIndex >= 3))
-            ? 3
-            : _effectiveIndex;
 
         return Stack(
           alignment: Alignment.bottomCenter,
           clipBehavior: Clip.none,
           children: [
-            // Spacer to ensure the Stack is tall enough for floating center buttons
-            SizedBox(height: barHeight + widget.margin.bottom + (isTablet ? 60 : 40)),
+            // Spacer to ensure the Stack is tall enough for floating center buttons and expanded More menu
+            SizedBox(
+              height: barHeight + widget.margin.bottom + (isTablet ? 350 : 250),
+            ),
 
             // 1. The Main Navigation Bar
             Positioned(
@@ -235,87 +239,35 @@ class _BottomNavBarState extends State<BottomNavBar> {
                               sigmaY: widget.blurAmount,
                             ),
                             child: Container(
-                              padding: isTablet
-                                  ? widget.padding.copyWith(
-                                      left: widget.padding.left * 2,
-                                      right: widget.padding.right * 2,
-                                    )
-                                  : widget.padding,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: sidePadding,
+                                vertical:
+                                    widget.padding.vertical /
+                                    (isTablet ? 2.0 : 1.5),
+                              ),
                               height: barHeight,
-                              child: Stack(
-                                children: [
-                                  AnimatedPositioned(
-                                    duration: widget.animationDuration,
-                                    curve: widget.indicatorCurve,
-                                    left: (hasExternalCenterButton &&
-                                            indicatorIndex >= midIndex)
-                                        ? (indicatorIndex + 1) * itemWidth
-                                        : indicatorIndex * itemWidth,
-                                    width: itemWidth,
-                                    top: indicatorMetrics.top,
-                                    bottom: indicatorMetrics.bottom,
-                                    child: AnimatedOpacity(
-                                      duration: const Duration(milliseconds: 200),
-                                      opacity: widget.items[_effectiveIndex].isCenterAction ? 0 : 1,
-                                      child: Container(
-                                        alignment: indicatorMetrics.alignment,
-                                        child: AnimatedContainer(
-                                          duration: widget.animationDuration,
-                                          width: indicatorMetrics.width,
-                                          height: indicatorMetrics.height,
-                                          decoration: BoxDecoration(
-                                            gradient: LinearGradient(
-                                              colors: widget.items[_effectiveIndex].activeColor != null
-                                                  ? [
-                                                      widget.items[_effectiveIndex].activeColor!,
-                                                      widget.items[_effectiveIndex].activeColor!.withValues(alpha: 0.7),
-                                                    ]
-                                                  : (widget.indicatorColors ??
-                                                      [
-                                                        colorScheme.primary,
-                                                        colorScheme.primary.withValues(alpha: 0.7),
-                                                      ]),
-                                              begin: Alignment.topLeft,
-                                              end: Alignment.bottomRight,
-                                            ),
-                                            borderRadius: BorderRadius.circular(indicatorMetrics.borderRadius),
-                                            boxShadow: [
-                                              if (indicatorMetrics.showGlow)
-                                                BoxShadow(
-                                                  color: (widget.items[_effectiveIndex].activeColor ??
-                                                          widget.indicatorColors?.first ??
-                                                          colorScheme.primary)
-                                                      .withValues(alpha: 0.3),
-                                                  blurRadius: 15,
-                                                  spreadRadius: -2,
-                                                  offset: const Offset(0, 4),
-                                                ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  NavItemsRow(
-                                    displayItems: displayItems,
-                                    extraItems: extraItems,
-                                    effectiveIndex: _effectiveIndex,
-                                    isMoreOpen: _isMoreOpen,
-                                    hasMore: hasMore,
-                                    itemWidth: itemWidth,
-                                    isTablet: isTablet,
-                                    selectedColor: themeColors.selectedItemColor,
-                                    unselectedColor: themeColors.unselectedItemColor,
-                                    midIndex: midIndex,
-                                    hasExternalCenterButton: hasExternalCenterButton,
-                                    showLabels: widget.showLabels,
-                                    animationDuration: widget.animationDuration,
-                                    iconCurve: widget.iconCurve,
-                                    textStyle: widget.textStyle,
-                                    onItemTapped: _onItemTapped,
-                                    onToggleMore: () => setState(() => _isMoreOpen = !_isMoreOpen),
-                                  ),
-                                ],
+                              child: NavItemsRow(
+                                displayItems: displayItems,
+                                extraItems: extraItems,
+                                effectiveIndex: _effectiveIndex,
+                                isMoreOpen: _isMoreOpen,
+                                hasMore: hasMore,
+                                isTablet: isTablet,
+                                selectedColor: themeColors.selectedItemColor,
+                                unselectedColor:
+                                    themeColors.unselectedItemColor,
+                                midIndex: midIndex,
+                                hasExternalCenterButton:
+                                    hasExternalCenterButton,
+                                showLabels: widget.showLabels,
+                                animationDuration: widget.animationDuration,
+                                iconCurve: widget.iconCurve,
+                                textStyle: widget.textStyle,
+                                indicatorMetrics: indicatorMetrics,
+                                indicatorColors: widget.indicatorColors,
+                                onItemTapped: _onItemTapped,
+                                onToggleMore: () =>
+                                    setState(() => _isMoreOpen = !_isMoreOpen),
                               ),
                             ),
                           ),
@@ -326,24 +278,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 ),
               ),
             ),
-
-            // 2. The More Menu
-            if (hasMore)
-              NavMoreMenu(
-                isMoreOpen: _isMoreOpen,
-                borderRadius: widget.borderRadius,
-                blurAmount: widget.blurAmount,
-                backgroundColor: themeColors.backgroundColor,
-                extraItems: extraItems,
-                currentIndex: _effectiveIndex,
-                selectedColor: themeColors.selectedItemColor,
-                unselectedColor: themeColors.unselectedItemColor,
-                textStyle: widget.textStyle,
-                onItemTap: (index) {
-                  _onItemTapped(index, closeMoreMenu: true);
-                },
-                isTablet: isTablet,
-              ),
 
             // 3. Center Button Overlay (External) - Very front for maximum clickability
             if (hasExternalCenterButton)
@@ -365,7 +299,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       clipBehavior: Clip.none,
                       children: [
                         Positioned(
-                          top: widget.centerButtonStyle == CenterButtonStyle.notched ? -25 : -30,
+                          top:
+                              widget.centerButtonStyle ==
+                                  CenterButtonStyle.notched
+                              ? -25
+                              : -30,
                           child: widget.centerButton!,
                         ),
                       ],
@@ -390,9 +328,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   clipBehavior: Clip.none,
                   child: NavCenterActionOverlays(
                     items: widget.items,
-                    itemWidth: itemWidth,
                     midIndex: midIndex,
                     hasExternalCenterButton: hasExternalCenterButton,
+                    hasMore: hasMore,
+                    displayItemsCount: displayItems.length,
                     padding: widget.padding,
                     onItemTapped: _onItemTapped,
                     isTablet: isTablet,
@@ -400,6 +339,26 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 ),
               ),
             ),
+
+            // 5. The More Menu (at the very front for hit testing)
+            if (hasMore)
+              NavMoreMenu(
+                isMoreOpen: _isMoreOpen,
+                borderRadius: widget.borderRadius,
+                blurAmount: widget.blurAmount,
+                backgroundColor: themeColors.backgroundColor,
+                extraItems: extraItems,
+                displayItemsCount: displayItems.length,
+                currentIndex: _effectiveIndex,
+                selectedColor: themeColors.selectedItemColor,
+                unselectedColor: themeColors.unselectedItemColor,
+                textStyle: widget.textStyle,
+                onItemTap: (index) {
+                  _onItemTapped(index, closeMoreMenu: true);
+                },
+                isTablet: isTablet,
+                horizontalMargin: isDocked ? 0.0 : widget.margin.right,
+              ),
           ],
         );
       },

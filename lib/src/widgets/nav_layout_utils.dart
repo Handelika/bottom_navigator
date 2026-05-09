@@ -9,20 +9,31 @@ class NavLayoutUtils {
   static bool isTablet(double width) => width > tabletBreakpoint;
 
   /// Returns the appropriate bar height based on device type and style.
-  static double getBarHeight({required bool isTablet, required bool isDocked}) {
+  static double getBarHeight({
+    required bool isTablet,
+    required bool isDocked,
+    required double screenHeight,
+    required double screenWidth,
+  }) {
+    // Dynamic height calculation based on screen height for premium responsiveness
     if (isTablet) {
-      return isDocked ? 92.0 : 84.0;
+      // For tablets, we want a taller, more prominent bar
+      final baseHeight = (screenHeight * 0.09).clamp(90.0, 120.0);
+      return isDocked ? baseHeight + 10.0 : baseHeight;
     }
-    return isDocked ? 72.0 : 65.0;
+    // For mobile, we use a standard responsive height
+    final baseHeight = (screenHeight * 0.08).clamp(70.0, 90.0);
+    return isDocked ? baseHeight + 8.0 : baseHeight;
   }
 
   /// Returns the horizontal margin adjustment for tablets.
   static double getHorizontalMargin(double baseMargin, bool isTablet) {
-    return isTablet ? baseMargin * 2.0 : baseMargin;
+    return isTablet ? baseMargin * 1.8 : baseMargin;
   }
 
   /// Returns the content padding adjustment for tablets.
   static double getHorizontalPadding(double basePadding, bool isTablet) {
-    return isTablet ? basePadding * 2.5 : basePadding;
+    // Increased multiplier for better centering and spacing on large screens
+    return isTablet ? basePadding * 2.0 : basePadding;
   }
 }

@@ -71,7 +71,7 @@ class ClassicNavBottomBar extends StatelessWidget {
       centerButtonStyle: CenterButtonStyle.none,
       showLabels: showLabels,
       indicatorStyle: indicatorStyle,
-      navBarStyle: NavBarStyle.floating,
+      navBarStyle: NavBarStyle.docked,
       textStyle: textStyle,
       onTap: onTap,
     );

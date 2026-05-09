@@ -3,21 +3,13 @@ import '../enums.dart';
 
 class IndicatorMetrics {
   final IndicatorStyle style;
-  final double? top;
-  final double bottom;
-  final Alignment alignment;
-  final double width;
-  final double height;
+  final EdgeInsets padding;
   final double borderRadius;
   final bool showGlow;
 
   const IndicatorMetrics({
     required this.style,
-    required this.top,
-    required this.bottom,
-    required this.alignment,
-    required this.width,
-    required this.height,
+    required this.padding,
     required this.borderRadius,
     required this.showGlow,
   });
@@ -27,60 +19,65 @@ IndicatorStyle resolveEffectiveIndicatorStyle({
   required bool showLabels,
   required IndicatorStyle preferredStyle,
 }) {
-  if (showLabels) {
-    return IndicatorStyle.square;
-  }
   return preferredStyle;
 }
 
 IndicatorMetrics resolveIndicatorMetrics({
   required IndicatorStyle style,
-  required double itemWidth,
+  required double barHeight,
   bool isTablet = false,
+  bool showLabels = false,
 }) {
   switch (style) {
     case IndicatorStyle.dot:
+      final dotSize = isTablet ? 12.0 : 8.0;
+      final bottomPadding = isTablet ? 14.0 : 8.0;
       return IndicatorMetrics(
         style: IndicatorStyle.dot,
-        top: null,
-        bottom: isTablet ? 14 : 8,
-        alignment: Alignment.bottomCenter,
-        width: isTablet ? 12 : 8,
-        height: isTablet ? 12 : 8,
-        borderRadius: isTablet ? 6 : 4,
+        padding: EdgeInsets.only(
+          bottom: bottomPadding,
+          top: barHeight - bottomPadding - dotSize,
+        ),
+        borderRadius: dotSize / 2,
         showGlow: false,
       );
     case IndicatorStyle.line:
+      final lineWidth = isTablet ? 24.0 : 12.0;
+      final lineHeight = isTablet ? 4.0 : 3.0;
+      final bottomPadding = isTablet ? 16.0 : 10.0;
       return IndicatorMetrics(
         style: IndicatorStyle.line,
-        top: null,
-        bottom: isTablet ? 16 : 10,
-        alignment: Alignment.bottomCenter,
-        width: isTablet ? 24 : 12,
-        height: isTablet ? 4 : 3,
+        padding: EdgeInsets.only(
+          bottom: bottomPadding,
+          top: barHeight - bottomPadding - lineHeight,
+        ),
         borderRadius: 2,
         showGlow: false,
       );
     case IndicatorStyle.square:
+      final horizontalPadding = (isTablet ? 12.0 : 8.0) / 2;
+      final targetHeight = isTablet ? (showLabels ? 95.0 : 80.0) : (showLabels ? 70.0 : 60.0);
+      final verticalPadding = (barHeight - targetHeight) / 2;
       return IndicatorMetrics(
         style: IndicatorStyle.square,
-        top: null,
-        bottom: 0,
-        alignment: Alignment.bottomCenter,
-        width: isTablet ? (itemWidth * 0.35).clamp(40.0, 80.0) : itemWidth * 0.4,
-        height: isTablet ? 6 : 4,
-        borderRadius: isTablet ? 3 : 2,
+        padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding,
+          vertical: verticalPadding,
+        ),
+        borderRadius: isTablet ? 12 : 8,
         showGlow: false,
       );
     case IndicatorStyle.pill:
+      final horizontalPadding = (isTablet ? 12.0 : 8.0) / 2;
+      final targetHeight = isTablet ? (showLabels ? 100.0 : 85.0) : (showLabels ? 75.0 : 65.0);
+      final verticalPadding = (barHeight - targetHeight) / 2;
       return IndicatorMetrics(
         style: IndicatorStyle.pill,
-        top: 0,
-        bottom: 0,
-        alignment: Alignment.center,
-        width: isTablet ? (itemWidth * 0.75).clamp(80.0, 160.0) : itemWidth * 0.9,
-        height: isTablet ? 60 : 50,
-        borderRadius: isTablet ? 30 : 25,
+        padding: EdgeInsets.symmetric(
+          horizontal: horizontalPadding,
+          vertical: verticalPadding,
+        ),
+        borderRadius: isTablet ? 25 : 20,
         showGlow: true,
       );
   }

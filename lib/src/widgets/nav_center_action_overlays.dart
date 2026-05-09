@@ -5,9 +5,10 @@ import '../nav_item.dart';
 /// A widget that builds the specialized center action button overlays.
 class NavCenterActionOverlays extends StatelessWidget {
   final List<BottomNavItem> items;
-  final double itemWidth;
   final int midIndex;
   final bool hasExternalCenterButton;
+  final bool hasMore;
+  final int displayItemsCount;
   final EdgeInsets padding;
   final Function(int) onItemTapped;
   final bool isTablet;
@@ -15,9 +16,10 @@ class NavCenterActionOverlays extends StatelessWidget {
   const NavCenterActionOverlays({
     super.key,
     required this.items,
-    required this.itemWidth,
     required this.midIndex,
     required this.hasExternalCenterButton,
+    required this.hasMore,
+    required this.displayItemsCount,
     required this.padding,
     required this.onItemTapped,
     this.isTablet = false,
@@ -25,21 +27,18 @@ class NavCenterActionOverlays extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> overlays = [];
+    final List<Widget> children = [];
 
     for (int i = 0; i < items.length; i++) {
+      // Inject gap for external center button
+      if (hasExternalCenterButton && i == midIndex) {
+        children.add(const Expanded(child: SizedBox.shrink()));
+      }
+
       final item = items[i];
       if (item.isCenterAction) {
-        // Calculate position, accounting for the gap if an external FAB exists
-        final leftOffset = (hasExternalCenterButton && i >= midIndex)
-            ? (i + 1) * itemWidth
-            : i * itemWidth;
-
-        overlays.add(
-          Positioned(
-            left: leftOffset + padding.left,
-            width: itemWidth,
-            top: isTablet ? -28 : -22,
+        children.add(
+          Expanded(
             child: Center(
               child: GestureDetector(
                 onTap: () {
@@ -77,16 +76,34 @@ class NavCenterActionOverlays extends StatelessWidget {
                   child: Center(
                     child:
                         item.customWidget ??
-                        Icon(Icons.add, color: Colors.white, size: isTablet ? 34 : 28),
+                        Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: isTablet ? 34 : 28,
+                        ),
                   ),
                 ),
               ),
             ),
           ),
         );
+      } else {
+        children.add(const Expanded(child: SizedBox.shrink()));
+      }
+
+      if (hasMore && i == displayItemsCount - 1) {
+        // After displayed items, add the 'More' slot placeholder
+        children.add(const Expanded(child: SizedBox.shrink()));
+        break;
       }
     }
 
-    return Stack(clipBehavior: Clip.none, children: overlays);
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: padding.horizontal / 2),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: children,
+      ),
+    );
   }
 }

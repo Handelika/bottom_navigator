@@ -288,6 +288,10 @@ class _MainScreenState extends State<MainScreen> {
 
   Widget _buildBottomBar() {
     final fab = FloatingActionButton(
+      elevation: 5,
+      backgroundColor: BottomNavBarColors.glassBackground.withValues(
+        alpha: 0.1,
+      ),
       onPressed: () {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -299,7 +303,10 @@ class _MainScreenState extends State<MainScreen> {
           ),
         );
       },
-      child: const FlutterLogo(),
+      child: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: const FlutterLogo(size: 50, curve: Curves.bounceIn),
+      ),
     );
 
     switch (_navVariant) {
@@ -348,22 +355,7 @@ class _MainScreenState extends State<MainScreen> {
           items: _navItems,
           blurAmount: 5,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-          centerButton: IconButton.filled(
-            icon: const Icon(CupertinoIcons.camera),
-            color: Colors.white,
-            onPressed: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                    'Center fab clicked',
-                    style: TextStyle(color: Colors.white),
-                  ),
-
-                  backgroundColor: BottomNavBarColors.electricBlue,
-                ),
-              );
-            },
-          ),
+          centerButton: fab,
           hideOnScroll: false,
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,

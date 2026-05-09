@@ -8,12 +8,14 @@ class NavMoreMenu extends StatelessWidget {
   final double blurAmount;
   final Color backgroundColor;
   final List<BottomNavItem> extraItems;
+  final int displayItemsCount;
   final int currentIndex;
   final Color selectedColor;
   final Color unselectedColor;
   final TextStyle? textStyle;
   final ValueChanged<int> onItemTap;
   final bool isTablet;
+  final double horizontalMargin;
 
   const NavMoreMenu({
     super.key,
@@ -22,12 +24,14 @@ class NavMoreMenu extends StatelessWidget {
     required this.blurAmount,
     required this.backgroundColor,
     required this.extraItems,
+    required this.displayItemsCount,
     required this.currentIndex,
     required this.selectedColor,
     required this.unselectedColor,
     required this.textStyle,
     required this.onItemTap,
     this.isTablet = false,
+    this.horizontalMargin = 0.0,
   });
 
   @override
@@ -36,13 +40,13 @@ class NavMoreMenu extends StatelessWidget {
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeOutBack,
       bottom: isMoreOpen ? (isTablet ? 110 : 80) : -400,
-      right: isTablet ? 40 : 0,
+      right: horizontalMargin + (isTablet ? 40 : 0),
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 300),
         opacity: isMoreOpen ? 1 : 0,
         child: Container(
-          width: isTablet ? 220 : 150,
-          padding: EdgeInsets.all(isTablet ? 12 : 8),
+          width: isTablet ? 260 : 150,
+          padding: EdgeInsets.all(isTablet ? 16 : 8),
           decoration: BoxDecoration(
             color: backgroundColor,
             borderRadius: BorderRadius.circular(borderRadius),
@@ -62,7 +66,7 @@ class NavMoreMenu extends StatelessWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: extraItems.asMap().entries.map((entry) {
-                  final idx = entry.key + 3;
+                  final idx = entry.key + displayItemsCount;
                   final item = entry.value;
                   final isSelected = currentIndex == idx;
 
@@ -71,8 +75,8 @@ class NavMoreMenu extends StatelessWidget {
                     onTap: isMoreOpen ? () => onItemTap(idx) : null,
                     child: Container(
                       padding: EdgeInsets.symmetric(
-                        vertical: isTablet ? 16 : 12,
-                        horizontal: isTablet ? 20 : 16,
+                        vertical: isTablet ? 20 : 12,
+                        horizontal: isTablet ? 24 : 16,
                       ),
                       color: isSelected
                           ? Colors.white.withValues(alpha: 0.1)
@@ -82,9 +86,9 @@ class NavMoreMenu extends StatelessWidget {
                           Icon(
                             item.icon,
                             color: isSelected ? selectedColor : unselectedColor,
-                            size: isTablet ? 24 : 20,
+                            size: isTablet ? 28 : 20,
                           ),
-                          SizedBox(width: isTablet ? 16 : 12),
+                          SizedBox(width: isTablet ? 18 : 12),
                           Expanded(
                             child: Text(
                               item.label,
@@ -97,7 +101,7 @@ class NavMoreMenu extends StatelessWidget {
                                         color: isSelected
                                             ? selectedColor
                                             : unselectedColor,
-                                        fontSize: isTablet ? 16 : 14,
+                                        fontSize: isTablet ? 18 : 14,
                                         fontWeight: isSelected
                                             ? FontWeight.bold
                                             : FontWeight.normal,
