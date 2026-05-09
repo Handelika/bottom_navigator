@@ -1,88 +1,29 @@
-import 'dart:math' as math;
-import 'package:flutter/material.dart';
-import '../enums.dart';
+import 'indicators/indicator_style.dart';
 
-class IndicatorMetrics {
-  final IndicatorStyle style;
-  final EdgeInsets padding;
-  final double borderRadius;
-  final bool showGlow;
+export 'indicators/indicator_style.dart';
+export 'indicators/pill_indicator.dart';
+export 'indicators/line_indicator.dart';
+export 'indicators/square_indicator.dart';
+export 'indicators/circle_indicator.dart';
 
-  const IndicatorMetrics({
-    required this.style,
-    required this.padding,
-    required this.borderRadius,
-    required this.showGlow,
-  });
-}
-
-IndicatorStyle resolveEffectiveIndicatorStyle({
-  required bool showLabels,
-  required IndicatorStyle preferredStyle,
-}) {
-  return preferredStyle;
-}
-
+/// Helper to resolve metrics from an [IndicatorStyle] instance.
 IndicatorMetrics resolveIndicatorMetrics({
   required IndicatorStyle style,
   required double barHeight,
   bool isTablet = false,
   bool showLabels = false,
 }) {
-  switch (style) {
-    case IndicatorStyle.dot:
-      final dotSize = isTablet ? 12.0 : 8.0;
-      final bottomPadding = isTablet ? 14.0 : 8.0;
-      return IndicatorMetrics(
-        style: IndicatorStyle.dot,
-        padding: EdgeInsets.only(
-          bottom: bottomPadding,
-          top: math.max(0.0, barHeight - bottomPadding - dotSize),
-        ),
-        borderRadius: dotSize / 2,
-        showGlow: false,
-      );
-    case IndicatorStyle.line:
-      final lineWidth = isTablet ? 24.0 : 12.0;
-      final lineHeight = isTablet ? 4.0 : 3.0;
-      final bottomPadding = isTablet ? 16.0 : 10.0;
-      return IndicatorMetrics(
-        style: IndicatorStyle.line,
-        padding: EdgeInsets.only(
-          bottom: bottomPadding,
-          top: math.max(0.0, barHeight - bottomPadding - lineHeight),
-        ),
-        borderRadius: 2,
-        showGlow: false,
-      );
-    case IndicatorStyle.square:
-      final horizontalPadding = (isTablet ? 12.0 : 8.0) / 2;
-      final targetHeight = isTablet ? (showLabels ? 95.0 : 80.0) : (showLabels ? 70.0 : 60.0);
-      final verticalPadding = math.max(0.0, (barHeight - targetHeight) / 2);
-      return IndicatorMetrics(
-        style: IndicatorStyle.square,
-        padding: EdgeInsets.symmetric(
-          horizontal: horizontalPadding,
-          vertical: verticalPadding,
-        ),
-        borderRadius: isTablet ? 12 : 8,
-        showGlow: false,
-      );
-    case IndicatorStyle.pill:
-      final horizontalPadding = (isTablet ? 12.0 : 8.0) / 2;
-      // Make it taller to fill more of the bar height
-      final targetHeight = isTablet
-          ? (showLabels ? 105.0 : 90.0)
-          : (showLabels ? 78.0 : 68.0);
-      final verticalPadding = math.max(0.0, (barHeight - targetHeight) / 2);
-      return IndicatorMetrics(
-        style: IndicatorStyle.pill,
-        padding: EdgeInsets.symmetric(
-          horizontal: horizontalPadding,
-          vertical: verticalPadding,
-        ),
-        borderRadius: isTablet ? 32 : 28, // Smoother rounding
-        showGlow: true,
-      );
-  }
+  return style.resolveMetrics(
+    barHeight: barHeight,
+    isTablet: isTablet,
+    showLabels: showLabels,
+  );
+}
+
+/// A hook for any future dynamic style resolution logic.
+IndicatorStyle resolveEffectiveIndicatorStyle({
+  required bool showLabels,
+  required IndicatorStyle preferredStyle,
+}) {
+  return preferredStyle;
 }

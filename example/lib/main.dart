@@ -48,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
   _SelectedTab _selectedTab = _SelectedTab.home;
   final ScrollController _scrollController = ScrollController();
   _NavVariant _navVariant = _NavVariant.classic;
-  IndicatorStyle _indicatorStyle = IndicatorStyle.pill;
+  IndicatorStyle _indicatorStyle = const PillIndicatorStyle();
   bool _showLabels = false;
   double _borderRadius = 30.0;
 
@@ -228,24 +228,33 @@ class _MainScreenState extends State<MainScreen> {
                 alignment: WrapAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () =>
-                        setState(() => _indicatorStyle = IndicatorStyle.pill),
+                    onPressed: () => setState(
+                      () => _indicatorStyle = const PillIndicatorStyle(),
+                    ),
                     child: const Text('Pill'),
                   ),
                   ElevatedButton(
                     onPressed: () =>
-                        setState(() => _indicatorStyle = IndicatorStyle.dot),
-                    child: const Text('Dot'),
+                        setState(() => _indicatorStyle = IndicatorStyle.none),
+                    child: const Text('None'),
                   ),
                   ElevatedButton(
-                    onPressed: () =>
-                        setState(() => _indicatorStyle = IndicatorStyle.line),
+                    onPressed: () => setState(
+                      () => _indicatorStyle = const LineIndicatorStyle(),
+                    ),
                     child: const Text('Line'),
                   ),
                   ElevatedButton(
-                    onPressed: () =>
-                        setState(() => _indicatorStyle = IndicatorStyle.square),
+                    onPressed: () => setState(
+                      () => _indicatorStyle = const SquareIndicatorStyle(),
+                    ),
                     child: const Text('Square'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => setState(
+                      () => _indicatorStyle = const CircleIndicatorStyle(),
+                    ),
+                    child: const Text('Circle'),
                   ),
                 ],
               ),

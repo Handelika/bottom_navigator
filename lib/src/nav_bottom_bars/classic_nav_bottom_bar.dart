@@ -1,3 +1,4 @@
+import 'package:bottom_navigator/src/styles/nav_bar_indicator_style.dart';
 import 'package:flutter/material.dart';
 import '../enums.dart';
 import '../nav_bar.dart';
@@ -41,7 +42,7 @@ class ClassicNavBottomBar extends StatelessWidget {
     this.indicatorCurve = Curves.easeOutBack,
     this.iconCurve = Curves.easeInOut,
     this.showLabels = true,
-    this.indicatorStyle = IndicatorStyle.pill,
+    this.indicatorStyle = const PillIndicatorStyle(),
     this.animationDuration = const Duration(milliseconds: 400),
     this.textStyle,
     this.onTap,

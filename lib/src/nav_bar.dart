@@ -55,7 +55,7 @@ class BottomNavBar extends StatefulWidget {
     this.centerButton,
     this.centerButtonStyle = CenterButtonStyle.none,
     this.showLabels = true,
-    this.indicatorStyle = IndicatorStyle.pill,
+    this.indicatorStyle = const PillIndicatorStyle(),
     this.animationDuration = const Duration(milliseconds: 400),
     this.navBarStyle = NavBarStyle.floating,
     this.textStyle,

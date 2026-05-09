@@ -1,7 +1,7 @@
+import 'package:bottom_navigator/bottom_navigator.dart';
 import 'package:bottom_navigator/src/styles/nav_bar_indicator_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../nav_item.dart';
 
 /// A widget that builds the horizontal row of items for the [BottomNavBar].
 class NavItemsRow extends StatelessWidget {
@@ -84,44 +84,24 @@ class NavItemsRow extends StatelessWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
-                  opacity: isSelected ? 1 : 0,
-                  child: Padding(
-                    padding: indicatorMetrics.padding,
-                    child: AnimatedContainer(
-                      duration: animationDuration,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: item.activeColor != null
-                              ? [
-                                  item.activeColor!.withValues(alpha: 0.3),
-                                  item.activeColor!.withValues(alpha: 0.15),
-                                ]
-                              : (indicatorColors ??
-                                    [
-                                      Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
-                                      Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
-                                    ]),
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                Positioned.fill(
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 200),
+                    opacity: (isSelected &&
+                            indicatorMetrics.style != IndicatorStyle.none)
+                        ? 1
+                        : 0,
+                    child: Padding(
+                      padding: indicatorMetrics.padding,
+                      child: Center(
+                        child: indicatorMetrics.style.buildIndicator(
+                          context: context,
+                          isSelected: isSelected,
+                          metrics: indicatorMetrics,
+                          animationDuration: animationDuration,
+                          itemColor: item.activeColor,
+                          indicatorColors: indicatorColors,
                         ),
-                        borderRadius: BorderRadius.circular(
-                          indicatorMetrics.borderRadius,
-                        ),
-                        boxShadow: [
-                          if (indicatorMetrics.showGlow)
-                            BoxShadow(
-                              color:
-                                  (item.activeColor ??
-                                          indicatorColors?.first ??
-                                          Theme.of(context).colorScheme.primary)
-                                      .withValues(alpha: 0.3),
-                              blurRadius: 15,
-                              spreadRadius: -2,
-                              offset: const Offset(0, 4),
-                            ),
-                        ],
                       ),
                     ),
                   ),
@@ -202,39 +182,23 @@ class NavItemsRow extends StatelessWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                AnimatedOpacity(
-                  duration: const Duration(milliseconds: 200),
-                  opacity: isMoreSelected ? 1 : 0,
-                  child: Padding(
-                    padding: indicatorMetrics.padding,
-                    child: AnimatedContainer(
-                      duration: animationDuration,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors:
-                              indicatorColors ??
-                              [
-                                Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
-                                Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
-                              ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
+                Positioned.fill(
+                  child: AnimatedOpacity(
+                    duration: const Duration(milliseconds: 200),
+                    opacity: (isMoreSelected &&
+                            indicatorMetrics.style != IndicatorStyle.none)
+                        ? 1
+                        : 0,
+                    child: Padding(
+                      padding: indicatorMetrics.padding,
+                      child: Center(
+                        child: indicatorMetrics.style.buildIndicator(
+                          context: context,
+                          isSelected: isMoreSelected,
+                          metrics: indicatorMetrics,
+                          animationDuration: animationDuration,
+                          indicatorColors: indicatorColors,
                         ),
-                        borderRadius: BorderRadius.circular(
-                          indicatorMetrics.borderRadius,
-                        ),
-                        boxShadow: [
-                          if (indicatorMetrics.showGlow)
-                            BoxShadow(
-                              color:
-                                  (indicatorColors?.first ??
-                                          Theme.of(context).colorScheme.primary)
-                                      .withValues(alpha: 0.3),
-                              blurRadius: 15,
-                              spreadRadius: -2,
-                              offset: const Offset(0, 4),
-                            ),
-                        ],
                       ),
                     ),
                   ),

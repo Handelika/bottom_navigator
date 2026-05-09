@@ -1,3 +1,4 @@
+import 'package:bottom_navigator/src/styles/nav_bar_indicator_style.dart';
 import 'package:flutter/material.dart';
 import '../enums.dart';
 import '../nav_bar.dart';
@@ -44,7 +45,7 @@ class DockedNavBottomBar extends StatelessWidget {
     this.animationDuration = const Duration(milliseconds: 400),
     this.centerButton,
     this.showLabels = true,
-    this.indicatorStyle = IndicatorStyle.pill,
+    this.indicatorStyle = const PillIndicatorStyle(),
     this.textStyle,
     this.onTap,
   });

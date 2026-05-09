@@ -1,6 +1,6 @@
 enum CenterButtonStyle { none, floating, notched }
 
-enum IndicatorStyle { pill, dot, line, square }
+
 
 enum NavBarStyle {
   /// Floats above the screen content with margins and rounded corners.
