@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'indicator_style.dart';
 
+/// An indicator style that renders a perfect circle behind the active item.
+///
+/// This style uses a radial gradient and a subtle glow effect to create a
+/// premium, glassmorphic appearance.
 class CircleIndicatorStyle extends IndicatorStyle {
   const CircleIndicatorStyle();
 
@@ -10,16 +14,17 @@ class CircleIndicatorStyle extends IndicatorStyle {
     bool isTablet = false,
     bool showLabels = false,
   }) {
+    // Base sizing logic for different device types
     final double baseSize = isTablet ? 80.0 : 60.0;
 
-    // When labels are shown, the icon is shifted upwards in the centered column.
-    // We calculate this shift to keep the circle centered on the icon.
+    // When labels are shown, the icon is shifted upwards.
+    // We calculate this shift to keep the circle perfectly centered on the icon.
     final double shift = showLabels ? (isTablet ? 12.0 : 8.0) : 0.0;
 
-    // Calculate the maximum space available vertically to maintain a 1:1 ratio (circle)
+    // Calculate maximum space to maintain a 1:1 ratio (perfect circle)
     final double maxAvailable = barHeight - (shift * 2);
 
-    // Choose the smaller of the target size and available space to ensure it's a square
+    // Clamp the target size to available height to prevent "squeezing"
     final double targetSize = showLabels ? baseSize + 10.0 : baseSize;
     final double circleSize = targetSize > maxAvailable
         ? maxAvailable
@@ -54,7 +59,6 @@ class CircleIndicatorStyle extends IndicatorStyle {
       height: metrics.height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(metrics.borderRadius),
-
         color: primaryColor.withValues(alpha: 0.15),
         border: Border.all(
           color: primaryColor.withValues(alpha: 0.2),

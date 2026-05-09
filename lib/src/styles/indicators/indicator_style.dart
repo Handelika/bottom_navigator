@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 /// Base class for all navigation bar indicator styles.
+///
+/// Custom indicator styles should extend this class and implement [resolveMetrics]
+/// and [buildIndicator].
 abstract class IndicatorStyle {
   const IndicatorStyle();
 
@@ -9,6 +12,11 @@ abstract class IndicatorStyle {
 
   /// Resolves the specific metrics (padding, radius, size) for this style
   /// based on the current bar state.
+  ///
+  /// [barHeight] is the total height of the navigation bar.
+  /// [isTablet] indicates if the layout should be scaled for larger screens.
+  /// [showLabels] indicates if text labels are currently visible, which may
+  /// affect the indicator's vertical alignment or size.
   IndicatorMetrics resolveMetrics({
     required double barHeight,
     bool isTablet = false,
@@ -16,6 +24,12 @@ abstract class IndicatorStyle {
   });
 
   /// Builds the indicator widget for a specific item.
+  ///
+  /// [isSelected] is true if the item is the currently active one.
+  /// [metrics] contains the dimensions calculated by [resolveMetrics].
+  /// [animationDuration] is the duration for transition animations.
+  /// [itemColor] is the primary color of the navigation item.
+  /// [indicatorColors] is an optional list of colors for gradient effects.
   Widget buildIndicator({
     required BuildContext context,
     required bool isSelected,
@@ -29,11 +43,22 @@ abstract class IndicatorStyle {
 /// The result of resolving an indicator style, containing raw dimensions
 /// used for rendering.
 class IndicatorMetrics {
+  /// The style that generated these metrics.
   final IndicatorStyle style;
+
+  /// The padding to apply around the indicator widget.
   final EdgeInsets padding;
+
+  /// The border radius for the indicator shape.
   final double borderRadius;
+
+  /// Whether to show a glow/shadow effect.
   final bool showGlow;
+
+  /// The width of the indicator. If null, it will expand to available space.
   final double? width;
+
+  /// The height of the indicator. If null, it will expand to available space.
   final double? height;
 
   const IndicatorMetrics({
