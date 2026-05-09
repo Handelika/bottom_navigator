@@ -1,5 +1,4 @@
 import 'package:example/colors.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:bottom_navigator/bottom_navigator.dart';
@@ -51,6 +50,7 @@ class _MainScreenState extends State<MainScreen> {
   _NavVariant _navVariant = _NavVariant.classic;
   IndicatorStyle _indicatorStyle = IndicatorStyle.pill;
   bool _showLabels = false;
+  double _borderRadius = 30.0;
 
   void _handleIndexChanged(int index) {
     setState(() {
@@ -249,21 +249,28 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                 ],
               ),
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Show Labels',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  Switch(
-                    value: _showLabels,
-                    onChanged: (v) => setState(() => _showLabels = v),
-                  ),
-                ],
+              const Text(
+                'Show Labels',
+                style: TextStyle(color: Colors.white, fontSize: 16),
               ),
-              const SizedBox(height: 40),
+              Switch(
+                value: _showLabels,
+                onChanged: (val) => setState(() => _showLabels = val),
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Border Radius: ${_borderRadius.toStringAsFixed(0)}',
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+              ),
+              Slider(
+                value: _borderRadius,
+                activeColor: Colors.deepOrange,
+                inactiveColor: Colors.deepOrange.withValues(alpha: 0.3),
+                min: 0,
+                max: 50,
+                onChanged: (val) => setState(() => _borderRadius = val),
+              ),
+              const SizedBox(height: 24),
             ],
           );
         }
@@ -318,9 +325,11 @@ class _MainScreenState extends State<MainScreen> {
           hideOnScroll: true,
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,
+
           animationDuration: const Duration(milliseconds: 300),
           showLabels: _showLabels,
           indicatorStyle: _indicatorStyle,
+          borderRadius: _borderRadius,
           onTap: _handleIndexChanged,
         );
       case _NavVariant.docked:
@@ -331,9 +340,11 @@ class _MainScreenState extends State<MainScreen> {
           hideOnScroll: false,
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,
+          centerButton: fab,
           animationDuration: const Duration(milliseconds: 300),
           showLabels: _showLabels,
           indicatorStyle: _indicatorStyle,
+          borderRadius: _borderRadius,
           onTap: _handleIndexChanged,
         );
       case _NavVariant.floating:
@@ -348,6 +359,7 @@ class _MainScreenState extends State<MainScreen> {
           animationDuration: const Duration(milliseconds: 300),
           showLabels: _showLabels,
           indicatorStyle: _indicatorStyle,
+          borderRadius: _borderRadius,
           onTap: _handleIndexChanged,
         );
       case _NavVariant.notched:
@@ -362,6 +374,7 @@ class _MainScreenState extends State<MainScreen> {
           animationDuration: const Duration(milliseconds: 300),
           showLabels: _showLabels,
           indicatorStyle: _indicatorStyle,
+          borderRadius: _borderRadius,
           onTap: _handleIndexChanged,
         );
     }

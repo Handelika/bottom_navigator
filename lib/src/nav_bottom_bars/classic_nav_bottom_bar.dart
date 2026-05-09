@@ -19,7 +19,6 @@ class ClassicNavBottomBar extends StatelessWidget {
   final Curve indicatorCurve;
   final Curve iconCurve;
   final Duration animationDuration;
-  final Widget? centerButton;
   final bool showLabels;
   final IndicatorStyle indicatorStyle;
   final TextStyle? textStyle;
@@ -41,7 +40,6 @@ class ClassicNavBottomBar extends StatelessWidget {
     this.scrollController,
     this.indicatorCurve = Curves.easeOutBack,
     this.iconCurve = Curves.easeInOut,
-    this.centerButton,
     this.showLabels = true,
     this.indicatorStyle = IndicatorStyle.pill,
     this.animationDuration = const Duration(milliseconds: 400),
@@ -67,8 +65,6 @@ class ClassicNavBottomBar extends StatelessWidget {
       indicatorCurve: indicatorCurve,
       iconCurve: iconCurve,
       animationDuration: animationDuration,
-      centerButton: centerButton,
-      centerButtonStyle: CenterButtonStyle.none,
       showLabels: showLabels,
       indicatorStyle: indicatorStyle,
       navBarStyle: NavBarStyle.docked,

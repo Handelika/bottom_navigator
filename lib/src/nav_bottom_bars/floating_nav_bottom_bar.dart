@@ -1,31 +1,52 @@
 import 'package:flutter/material.dart';
-import 'classic_nav_bottom_bar.dart';
 import '../enums.dart';
 import '../nav_bar.dart';
+import '../nav_item.dart';
 
-class FloatingNavBottomBar extends ClassicNavBottomBar {
+class FloatingNavBottomBar extends StatelessWidget {
+  final List<BottomNavItem> items;
+  final int currentIndex;
+  final Color? backgroundColor;
+  final double blurAmount;
+  final double borderRadius;
+  final EdgeInsets padding;
+  final EdgeInsets margin;
+  final List<Color>? indicatorColors;
+  final Color? selectedItemColor;
+  final Color? unselectedItemColor;
+  final bool hideOnScroll;
+  final ScrollController? scrollController;
+  final Curve indicatorCurve;
+  final Curve iconCurve;
+  final Duration animationDuration;
+  final Widget? centerButton;
+  final bool showLabels;
+  final IndicatorStyle indicatorStyle;
+  final TextStyle? textStyle;
+  final ValueChanged<int>? onTap;
+
   const FloatingNavBottomBar({
     super.key,
-    required super.items,
-    required super.currentIndex,
-    super.backgroundColor,
-    super.blurAmount,
-    super.borderRadius,
-    super.padding,
-    super.margin,
-    super.indicatorColors,
-    super.selectedItemColor,
-    super.unselectedItemColor,
-    super.hideOnScroll,
-    super.scrollController,
-    super.indicatorCurve,
-    super.iconCurve,
-    super.animationDuration,
-    super.centerButton,
-    super.showLabels,
-    super.indicatorStyle,
-    super.textStyle,
-    super.onTap,
+    required this.items,
+    required this.currentIndex,
+    this.backgroundColor,
+    this.blurAmount = 15.0,
+    this.borderRadius = 30.0,
+    this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+    this.margin = const EdgeInsets.all(20),
+    this.indicatorColors,
+    this.selectedItemColor,
+    this.unselectedItemColor,
+    this.hideOnScroll = false,
+    this.scrollController,
+    this.indicatorCurve = Curves.easeOutBack,
+    this.iconCurve = Curves.easeInOut,
+    this.animationDuration = const Duration(milliseconds: 400),
+    this.centerButton,
+    this.showLabels = true,
+    this.indicatorStyle = IndicatorStyle.pill,
+    this.textStyle,
+    this.onTap,
   });
 
   @override

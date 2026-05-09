@@ -95,14 +95,13 @@ class NavItemsRow extends StatelessWidget {
                         gradient: LinearGradient(
                           colors: item.activeColor != null
                               ? [
-                                  item.activeColor!,
-                                  item.activeColor!.withValues(alpha: 0.7),
+                                  item.activeColor!.withValues(alpha: 0.3),
+                                  item.activeColor!.withValues(alpha: 0.15),
                                 ]
                               : (indicatorColors ??
                                     [
-                                      Theme.of(context).colorScheme.primary,
-                                      Theme.of(context).colorScheme.primary
-                                          .withValues(alpha: 0.7),
+                                      Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                                      Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
                                     ]),
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -215,10 +214,8 @@ class NavItemsRow extends StatelessWidget {
                           colors:
                               indicatorColors ??
                               [
-                                Theme.of(context).colorScheme.primary,
-                                Theme.of(
-                                  context,
-                                ).colorScheme.primary.withValues(alpha: 0.7),
+                                Theme.of(context).colorScheme.primary.withValues(alpha: 0.3),
+                                Theme.of(context).colorScheme.primary.withValues(alpha: 0.15),
                               ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,

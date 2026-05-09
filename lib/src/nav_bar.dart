@@ -137,14 +137,15 @@ class _BottomNavBarState extends State<BottomNavBar> {
         final bool isFloating = widget.navBarStyle == NavBarStyle.floating;
         final bool isNotched =
             widget.centerButtonStyle == CenterButtonStyle.notched;
-        final int threshold = (isFloating || isNotched) ? 4 : 5;
+        final bool hasCenter = widget.centerButton != null;
+        final int threshold = (isFloating || isNotched || hasCenter) ? 4 : 5;
 
         final bool hasMore = widget.items.length > threshold;
         final List<BottomNavItem> displayItems = hasMore
-            ? widget.items.sublist(0, (isFloating || isNotched) ? 3 : 4)
+            ? widget.items.sublist(0, threshold - 1)
             : widget.items;
         final List<BottomNavItem> extraItems = hasMore
-            ? widget.items.sublist((isFloating || isNotched) ? 3 : 4)
+            ? widget.items.sublist(threshold - 1)
             : [];
 
         final bool isTablet = NavLayoutUtils.isTablet(constraints.maxWidth);
@@ -194,7 +195,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
           children: [
             // Spacer to ensure the Stack is tall enough for floating center buttons and expanded More menu
             SizedBox(
-              height: barHeight + widget.margin.bottom + (isTablet ? 350 : 250),
+              height: barHeight + (isDocked ? 0 : widget.margin.bottom) + (isTablet ? 350 : 250),
             ),
 
             // 1. The Main Navigation Bar

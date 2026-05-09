@@ -1,3 +1,4 @@
+import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../enums.dart';
 
@@ -36,7 +37,7 @@ IndicatorMetrics resolveIndicatorMetrics({
         style: IndicatorStyle.dot,
         padding: EdgeInsets.only(
           bottom: bottomPadding,
-          top: barHeight - bottomPadding - dotSize,
+          top: math.max(0.0, barHeight - bottomPadding - dotSize),
         ),
         borderRadius: dotSize / 2,
         showGlow: false,
@@ -49,7 +50,7 @@ IndicatorMetrics resolveIndicatorMetrics({
         style: IndicatorStyle.line,
         padding: EdgeInsets.only(
           bottom: bottomPadding,
-          top: barHeight - bottomPadding - lineHeight,
+          top: math.max(0.0, barHeight - bottomPadding - lineHeight),
         ),
         borderRadius: 2,
         showGlow: false,
@@ -57,7 +58,7 @@ IndicatorMetrics resolveIndicatorMetrics({
     case IndicatorStyle.square:
       final horizontalPadding = (isTablet ? 12.0 : 8.0) / 2;
       final targetHeight = isTablet ? (showLabels ? 95.0 : 80.0) : (showLabels ? 70.0 : 60.0);
-      final verticalPadding = (barHeight - targetHeight) / 2;
+      final verticalPadding = math.max(0.0, (barHeight - targetHeight) / 2);
       return IndicatorMetrics(
         style: IndicatorStyle.square,
         padding: EdgeInsets.symmetric(
@@ -69,15 +70,18 @@ IndicatorMetrics resolveIndicatorMetrics({
       );
     case IndicatorStyle.pill:
       final horizontalPadding = (isTablet ? 12.0 : 8.0) / 2;
-      final targetHeight = isTablet ? (showLabels ? 100.0 : 85.0) : (showLabels ? 75.0 : 65.0);
-      final verticalPadding = (barHeight - targetHeight) / 2;
+      // Make it taller to fill more of the bar height
+      final targetHeight = isTablet
+          ? (showLabels ? 105.0 : 90.0)
+          : (showLabels ? 78.0 : 68.0);
+      final verticalPadding = math.max(0.0, (barHeight - targetHeight) / 2);
       return IndicatorMetrics(
         style: IndicatorStyle.pill,
         padding: EdgeInsets.symmetric(
           horizontal: horizontalPadding,
           vertical: verticalPadding,
         ),
-        borderRadius: isTablet ? 25 : 20,
+        borderRadius: isTablet ? 32 : 28, // Smoother rounding
         showGlow: true,
       );
   }
