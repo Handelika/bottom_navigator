@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'indicator_style.dart';
 
 class PillIndicatorStyle extends IndicatorStyle {
-  const PillIndicatorStyle();
+  const PillIndicatorStyle({this.indicatorColor, this.border, this.padding});
+
+  final Color? indicatorColor;
+  final BoxBorder? border;
+  final EdgeInsets? padding;
 
   @override
   IndicatorMetrics resolveMetrics({
@@ -20,10 +24,12 @@ class PillIndicatorStyle extends IndicatorStyle {
 
     return IndicatorMetrics(
       style: this,
-      padding: EdgeInsets.symmetric(
-        horizontal: horizontalPadding,
-        vertical: verticalPadding,
-      ),
+      padding:
+          padding ??
+          EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+            vertical: verticalPadding,
+          ),
       borderRadius: isTablet ? 40 : 32, // Smoother rounding
       showGlow: true,
     );
@@ -40,36 +46,42 @@ class PillIndicatorStyle extends IndicatorStyle {
   }) {
     final theme = Theme.of(context);
     final primaryColor =
-        itemColor ?? indicatorColors?.first ?? theme.colorScheme.primary;
+        indicatorColor ??
+        itemColor ??
+        indicatorColors?.first ??
+        theme.colorScheme.primary;
 
-    return AnimatedContainer(
+    Widget indicator = AnimatedContainer(
       duration: animationDuration,
       width: metrics.width,
       height: metrics.height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(metrics.borderRadius),
+        borderRadius: BorderRadius.circular(metrics.borderRadius!),
         color: primaryColor.withValues(alpha: 0.15),
-        border: Border.all(
-          color: primaryColor.withValues(alpha: 0.2),
-          width: 1.5,
-        ),
-        // gradient: LinearGradient(
-        //   begin: Alignment.topLeft,
-        //   end: Alignment.bottomRight,
-        //   colors: [
-        //     primaryColor.withValues(alpha: 0.3),
-        //     primaryColor.withValues(alpha: 0.1),
-        //   ],
-        // ),
-        // boxShadow: [
-        //   if (metrics.showGlow && isSelected)
-        //     BoxShadow(
-        //       color: primaryColor.withValues(alpha: 0.2),
-        //       blurRadius: 15,
-        //       offset: const Offset(0, 4),
-        //     ),
-        // ],
+        border:
+            border ??
+            Border.all(color: primaryColor.withValues(alpha: 0.2), width: 1.5),
       ),
     );
+
+    if (metrics.width == null && metrics.height == null) {
+      return SizedBox.expand(child: indicator);
+    }
+
+    if (metrics.width == null) {
+      return SizedBox(
+        height: metrics.height,
+        child: SizedBox.expand(child: indicator),
+      );
+    }
+
+    if (metrics.height == null) {
+      return SizedBox(
+        width: metrics.width,
+        child: SizedBox.expand(child: indicator),
+      );
+    }
+
+    return indicator;
   }
 }

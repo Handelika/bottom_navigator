@@ -48,7 +48,7 @@ class _MainScreenState extends State<MainScreen> {
   _SelectedTab _selectedTab = _SelectedTab.home;
   final ScrollController _scrollController = ScrollController();
   _NavVariant _navVariant = _NavVariant.classic;
-  IndicatorStyle _indicatorStyle = const PillIndicatorStyle();
+  IndicatorStyle _indicatorStyle = pilledIndicator;
   bool _showLabels = false;
   double _borderRadius = 30.0;
 
@@ -228,9 +228,8 @@ class _MainScreenState extends State<MainScreen> {
                 alignment: WrapAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () => setState(
-                      () => _indicatorStyle = const PillIndicatorStyle(),
-                    ),
+                    onPressed: () =>
+                        setState(() => _indicatorStyle = pilledIndicator),
                     child: const Text('Pill'),
                   ),
                   ElevatedButton(
@@ -239,21 +238,18 @@ class _MainScreenState extends State<MainScreen> {
                     child: const Text('None'),
                   ),
                   ElevatedButton(
-                    onPressed: () => setState(
-                      () => _indicatorStyle = const LineIndicatorStyle(),
-                    ),
+                    onPressed: () =>
+                        setState(() => _indicatorStyle = lineIndicator),
                     child: const Text('Line'),
                   ),
                   ElevatedButton(
-                    onPressed: () => setState(
-                      () => _indicatorStyle = const SquareIndicatorStyle(),
-                    ),
+                    onPressed: () =>
+                        setState(() => _indicatorStyle = squareIndicator),
                     child: const Text('Square'),
                   ),
                   ElevatedButton(
-                    onPressed: () => setState(
-                      () => _indicatorStyle = const CircleIndicatorStyle(),
-                    ),
+                    onPressed: () =>
+                        setState(() => _indicatorStyle = circleIndicator),
                     child: const Text('Circle'),
                   ),
                 ],
@@ -331,10 +327,9 @@ class _MainScreenState extends State<MainScreen> {
           items: _navItems,
           blurAmount: 5,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
-          hideOnScroll: true,
+          hideOnScroll: false,
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,
-
           animationDuration: const Duration(milliseconds: 300),
           showLabels: _showLabels,
           indicatorStyle: _indicatorStyle,

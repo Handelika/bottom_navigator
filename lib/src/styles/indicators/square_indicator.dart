@@ -7,7 +7,11 @@ import 'indicator_style.dart';
 /// This style provides a modern, structured look with subtle transparency
 /// and clear boundaries.
 class SquareIndicatorStyle extends IndicatorStyle {
-  const SquareIndicatorStyle();
+  const SquareIndicatorStyle({this.indicatorColor, this.border, this.padding});
+
+  final Color? indicatorColor;
+  final BoxBorder? border;
+  final EdgeInsets? padding;
 
   @override
   IndicatorMetrics resolveMetrics({
@@ -23,10 +27,12 @@ class SquareIndicatorStyle extends IndicatorStyle {
 
     return IndicatorMetrics(
       style: this,
-      padding: EdgeInsets.symmetric(
-        horizontal: horizontalPadding,
-        vertical: verticalPadding,
-      ),
+      padding:
+          padding ??
+          EdgeInsets.symmetric(
+            horizontal: horizontalPadding,
+            vertical: verticalPadding,
+          ),
       borderRadius: isTablet ? 12 : 8,
       showGlow: false,
     );
@@ -43,14 +49,17 @@ class SquareIndicatorStyle extends IndicatorStyle {
   }) {
     final theme = Theme.of(context);
     final primaryColor =
-        itemColor ?? indicatorColors?.first ?? theme.colorScheme.primary;
+        indicatorColor ??
+        itemColor ??
+        indicatorColors?.first ??
+        theme.colorScheme.primary;
 
-    return AnimatedContainer(
+    Widget indicator = AnimatedContainer(
       duration: animationDuration,
       width: metrics.width,
       height: metrics.height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(metrics.borderRadius),
+        borderRadius: BorderRadius.circular(metrics.borderRadius!),
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -59,11 +68,30 @@ class SquareIndicatorStyle extends IndicatorStyle {
             primaryColor.withValues(alpha: 0.05),
           ],
         ),
-        border: Border.all(
-          color: primaryColor.withValues(alpha: 0.2),
-          width: 1.5,
-        ),
+        border:
+            border ??
+            Border.all(color: primaryColor.withValues(alpha: 0.2), width: 1.5),
       ),
     );
+
+    if (metrics.width == null && metrics.height == null) {
+      return SizedBox.expand(child: indicator);
+    }
+
+    if (metrics.width == null) {
+      return SizedBox(
+        height: metrics.height,
+        child: SizedBox.expand(child: indicator),
+      );
+    }
+
+    if (metrics.height == null) {
+      return SizedBox(
+        width: metrics.width,
+        child: SizedBox.expand(child: indicator),
+      );
+    }
+
+    return indicator;
   }
 }

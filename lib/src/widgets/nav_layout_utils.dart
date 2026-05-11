@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 /// Utility class for handling responsive layout logic across the package.
 class NavLayoutUtils {
   /// Threshold width to distinguish between mobile and tablet/desktop layouts.

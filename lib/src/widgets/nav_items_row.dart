@@ -1,5 +1,4 @@
 import 'package:bottom_navigator/bottom_navigator.dart';
-import 'package:bottom_navigator/src/styles/nav_bar_indicator_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -87,72 +86,76 @@ class NavItemsRow extends StatelessWidget {
                 Positioned.fill(
                   child: AnimatedOpacity(
                     duration: const Duration(milliseconds: 200),
-                    opacity: (isSelected &&
+                    opacity:
+                        (isSelected &&
                             indicatorMetrics.style != IndicatorStyle.none)
                         ? 1
                         : 0,
                     child: Padding(
                       padding: indicatorMetrics.padding,
-                      child: Center(
-                        child: indicatorMetrics.style.buildIndicator(
-                          context: context,
-                          isSelected: isSelected,
-                          metrics: indicatorMetrics,
-                          animationDuration: animationDuration,
-                          itemColor: item.activeColor,
-                          indicatorColors: indicatorColors,
-                        ),
+                      child: indicatorMetrics.style.buildIndicator(
+                        context: context,
+                        isSelected: isSelected,
+                        metrics: indicatorMetrics,
+                        animationDuration: animationDuration,
+                        itemColor: item.activeColor,
+                        indicatorColors: indicatorColors,
                       ),
                     ),
                   ),
                 ),
                 Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      AnimatedContainer(
-                        duration: animationDuration,
-                        curve: iconCurve,
-                        transform: Matrix4.identity()
-                          ..scaleAdjoint(isSelected ? selectedScale : 1.0),
-                        transformAlignment: Alignment.center,
-                        child:
-                            item.customWidget ??
-                            Icon(
-                              item.icon,
-                              color: isSelected
-                                  ? selectedColor
-                                  : unselectedColor,
-                              size: iconSize,
-                            ),
-                      ),
-                      if (showLabels)
-                        AnimatedSize(
+                  child: Padding(
+                    padding: EdgeInsetsGeometry.all(3),
+
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        AnimatedContainer(
                           duration: animationDuration,
                           curve: iconCurve,
-                          child: isSelected
-                              ? Padding(
-                                  padding: EdgeInsets.only(top: labelPadding),
-                                  child: Text(
-                                    item.label,
-                                    style:
-                                        (textStyle ??
-                                                Theme.of(
-                                                  context,
-                                                ).textTheme.bodyMedium!)
-                                            .copyWith(
-                                              color: selectedColor,
-                                              fontWeight: FontWeight.bold,
-                                              fontSize: labelSize,
-                                            ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 1,
-                                  ),
-                                )
-                              : const SizedBox.shrink(),
+                          transform: Matrix4.identity()
+                            ..scaleAdjoint(isSelected ? selectedScale : 1.0),
+                          transformAlignment: Alignment.center,
+                          child:
+                              item.customWidget ??
+                              Icon(
+                                item.icon,
+                                color: isSelected
+                                    ? selectedColor
+                                    : unselectedColor,
+                                size: iconSize,
+                              ),
                         ),
-                    ],
+                        if (showLabels)
+                          AnimatedSize(
+                            duration: animationDuration,
+                            curve: iconCurve,
+                            child: isSelected
+                                ? Padding(
+                                    padding: EdgeInsets.only(top: labelPadding),
+                                    child: Text(
+                                      item.label,
+                                      style:
+                                          (textStyle ??
+                                                  Theme.of(
+                                                    context,
+                                                  ).textTheme.bodyMedium!)
+                                              .copyWith(
+                                                color: selectedColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: labelSize,
+                                              ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
+                          ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -185,7 +188,8 @@ class NavItemsRow extends StatelessWidget {
                 Positioned.fill(
                   child: AnimatedOpacity(
                     duration: const Duration(milliseconds: 200),
-                    opacity: (isMoreSelected &&
+                    opacity:
+                        (isMoreSelected &&
                             indicatorMetrics.style != IndicatorStyle.none)
                         ? 1
                         : 0,

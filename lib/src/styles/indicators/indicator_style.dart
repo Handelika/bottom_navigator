@@ -1,3 +1,4 @@
+import 'package:bottom_navigator/bottom_navigator.dart';
 import 'package:flutter/material.dart';
 
 /// Base class for all navigation bar indicator styles.
@@ -9,6 +10,15 @@ abstract class IndicatorStyle {
 
   /// A style that shows no indicator highlight.
   static const none = NoneIndicatorStyle();
+
+  /// A square-shaped indicator style.
+
+  /// A pill-shaped indicator style.
+  static const pilled = PillIndicatorStyle();
+
+  /// A line-shaped indicator style.
+
+  /// A circle-shaped indicator style.
 
   /// Resolves the specific metrics (padding, radius, size) for this style
   /// based on the current bar state.
@@ -50,7 +60,7 @@ class IndicatorMetrics {
   final EdgeInsets padding;
 
   /// The border radius for the indicator shape.
-  final double borderRadius;
+  final double? borderRadius;
 
   /// Whether to show a glow/shadow effect.
   final bool showGlow;
@@ -64,7 +74,7 @@ class IndicatorMetrics {
   const IndicatorMetrics({
     required this.style,
     required this.padding,
-    required this.borderRadius,
+    this.borderRadius,
     required this.showGlow,
     this.width,
     this.height,
@@ -73,7 +83,11 @@ class IndicatorMetrics {
 
 /// Implementation for [IndicatorStyle.none].
 class NoneIndicatorStyle extends IndicatorStyle {
-  const NoneIndicatorStyle();
+  const NoneIndicatorStyle({this.indicatorColor, this.border, this.padding});
+
+  final Color? indicatorColor;
+  final BoxBorder? border;
+  final EdgeInsets? padding;
 
   @override
   IndicatorMetrics resolveMetrics({
@@ -83,8 +97,7 @@ class NoneIndicatorStyle extends IndicatorStyle {
   }) {
     return IndicatorMetrics(
       style: this,
-      padding: EdgeInsets.zero,
-      borderRadius: 0,
+      padding: padding ?? EdgeInsets.zero,
       showGlow: false,
     );
   }

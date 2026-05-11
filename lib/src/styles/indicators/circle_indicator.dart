@@ -6,7 +6,11 @@ import 'indicator_style.dart';
 /// This style uses a radial gradient and a subtle glow effect to create a
 /// premium, glassmorphic appearance.
 class CircleIndicatorStyle extends IndicatorStyle {
-  const CircleIndicatorStyle();
+  const CircleIndicatorStyle({this.indicatorColor, this.border, this.padding});
+
+  final Color? indicatorColor;
+  final BoxBorder? border;
+  final EdgeInsets? padding;
 
   @override
   IndicatorMetrics resolveMetrics({
@@ -32,8 +36,7 @@ class CircleIndicatorStyle extends IndicatorStyle {
 
     return IndicatorMetrics(
       style: this,
-      padding: EdgeInsets.only(bottom: shift * 2),
-      borderRadius: circleSize / 2,
+      padding: padding ?? EdgeInsets.only(bottom: shift * 2),
       showGlow: true,
       width: circleSize,
       height: circleSize,
@@ -51,20 +54,45 @@ class CircleIndicatorStyle extends IndicatorStyle {
   }) {
     final theme = Theme.of(context);
     final primaryColor =
-        itemColor ?? indicatorColors?.first ?? theme.colorScheme.primary;
+        indicatorColor ??
+        itemColor ??
+        indicatorColors?.first ??
+        theme.colorScheme.primary;
 
-    return AnimatedContainer(
+    Widget indicator = AnimatedContainer(
       duration: animationDuration,
-      width: metrics.width,
+      width: metrics.height,
       height: metrics.height,
+      alignment: Alignment.center,
+
+      padding: padding ?? EdgeInsets.all(8),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(metrics.borderRadius),
+        shape: BoxShape.circle,
         color: primaryColor.withValues(alpha: 0.15),
-        border: Border.all(
-          color: primaryColor.withValues(alpha: 0.2),
-          width: 1.5,
-        ),
+        border:
+            border ??
+            Border.all(color: primaryColor.withValues(alpha: 0.2), width: 1.5),
       ),
     );
+
+    if (metrics.width == null && metrics.height == null) {
+      return SizedBox.expand(child: indicator);
+    }
+
+    if (metrics.width == null) {
+      return SizedBox(
+        height: metrics.height,
+        child: SizedBox.expand(child: indicator),
+      );
+    }
+
+    if (metrics.height == null) {
+      return SizedBox(
+        width: metrics.width,
+        child: SizedBox.expand(child: indicator),
+      );
+    }
+
+    return indicator;
   }
 }
