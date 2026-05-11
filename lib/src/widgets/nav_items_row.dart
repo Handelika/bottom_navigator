@@ -61,7 +61,7 @@ class NavItemsRow extends StatelessWidget {
     final moreOpenScale = showLabels ? 1.06 : (isTablet ? 1.25 : 1.2);
     final labelSize = isTablet ? 14.0 : 10.0;
     final labelPadding = showLabels
-        ? (isTablet ? 4.0 : 2.0)
+        ? (isTablet ? 6.0 : 4.0)
         : (isTablet ? 6.0 : 4.0);
 
     for (int i = 0; i < displayItems.length; i++) {

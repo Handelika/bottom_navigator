@@ -18,28 +18,10 @@ class CircleIndicatorStyle extends IndicatorStyle {
     bool isTablet = false,
     bool showLabels = false,
   }) {
-    // Base sizing logic for different device types
-    final double baseSize = isTablet ? 80.0 : 60.0;
-
-    // When labels are shown, the icon is shifted upwards.
-    // We calculate this shift to keep the circle perfectly centered on the icon.
-    final double shift = showLabels ? (isTablet ? 12.0 : 8.0) : 0.0;
-
-    // Calculate maximum space to maintain a 1:1 ratio (perfect circle)
-    final double maxAvailable = barHeight - (shift * 2);
-
-    // Clamp the target size to available height to prevent "squeezing"
-    final double targetSize = showLabels ? baseSize + 10.0 : baseSize;
-    final double circleSize = targetSize > maxAvailable
-        ? maxAvailable
-        : targetSize;
-
     return IndicatorMetrics(
       style: this,
-      padding: padding ?? EdgeInsets.only(bottom: shift * 2),
+      padding: EdgeInsets.zero,
       showGlow: true,
-      width: circleSize,
-      height: circleSize,
     );
   }
 
@@ -59,40 +41,20 @@ class CircleIndicatorStyle extends IndicatorStyle {
         indicatorColors?.first ??
         theme.colorScheme.primary;
 
-    Widget indicator = AnimatedContainer(
-      duration: animationDuration,
-      width: metrics.height,
-      height: metrics.height,
-      alignment: Alignment.center,
-
-      padding: padding ?? EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: primaryColor.withValues(alpha: 0.15),
-        border:
-            border ??
-            Border.all(color: primaryColor.withValues(alpha: 0.2), width: 1.5),
+    return SizedBox.expand(
+      child: AnimatedContainer(
+        duration: animationDuration,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: primaryColor.withValues(alpha: 0.15),
+          border:
+              border ??
+              Border.all(
+                color: primaryColor.withValues(alpha: 0.2),
+                width: 1.5,
+              ),
+        ),
       ),
     );
-
-    if (metrics.width == null && metrics.height == null) {
-      return SizedBox.expand(child: indicator);
-    }
-
-    if (metrics.width == null) {
-      return SizedBox(
-        height: metrics.height,
-        child: SizedBox.expand(child: indicator),
-      );
-    }
-
-    if (metrics.height == null) {
-      return SizedBox(
-        width: metrics.width,
-        child: SizedBox.expand(child: indicator),
-      );
-    }
-
-    return indicator;
   }
 }

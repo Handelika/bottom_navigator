@@ -233,7 +233,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
                     alignment: Alignment.bottomCenter,
                     children: [
                       CustomPaint(
-                        size: Size(width, barHeight),
                         painter: NavBarPainter(
                           backgroundColor: themeColors.backgroundColor,
                           borderRadius: isDocked ? 0.0 : widget.borderRadius,
@@ -249,13 +248,14 @@ class _BottomNavBarState extends State<BottomNavBar> {
                               sigmaY: widget.blurAmount,
                             ),
                             child: Container(
+                              width: width,
+                              height: isDocked ? barHeight : null,
                               padding: EdgeInsets.symmetric(
                                 horizontal: sidePadding,
                                 vertical:
                                     widget.padding.vertical /
                                     (isTablet ? 2.0 : 1.5),
                               ),
-                              height: barHeight,
                               child: NavItemsRow(
                                 displayItems: displayItems,
                                 extraItems: extraItems,

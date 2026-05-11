@@ -21,17 +21,17 @@ class LineIndicatorStyle extends IndicatorStyle {
     bool isTablet = false,
     bool showLabels = false,
   }) {
-    final lineWidth = isTablet ? 32.0 : 20.0;
-    final bottomPadding = isTablet ? 12.0 : 8.0;
-    final lineAreaHeight = barHeight - bottomPadding;
+    final lineWidth = isTablet ? 36.0 : 26.0;
+    final indicatorHeight = height;
+    final bottomPadding = isTablet ? 8.0 : 6.0;
 
     return IndicatorMetrics(
       style: this,
-      padding: padding ?? EdgeInsets.only(bottom: bottomPadding),
-      borderRadius: 2,
+      padding: EdgeInsets.only(bottom: bottomPadding),
+      borderRadius: indicatorHeight / 2,
       showGlow: false,
       width: lineWidth,
-      height: lineAreaHeight,
+      height: indicatorHeight,
     );
   }
 
@@ -51,20 +51,16 @@ class LineIndicatorStyle extends IndicatorStyle {
         indicatorColors?.first ??
         theme.colorScheme.primary;
 
-    return AnimatedContainer(
-      duration: animationDuration,
-      width: metrics.width,
-      height: metrics.height,
-      child: Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          width: metrics.width,
-          height: height,
-          decoration: BoxDecoration(
-            color: primaryColor,
-            borderRadius: BorderRadius.circular(metrics.borderRadius ?? 0),
-            border: border,
-          ),
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: AnimatedContainer(
+        duration: animationDuration,
+        width: metrics.width,
+        height: metrics.height,
+        decoration: BoxDecoration(
+          color: primaryColor,
+          borderRadius: BorderRadius.circular(metrics.borderRadius ?? 0),
+          border: border,
         ),
       ),
     );

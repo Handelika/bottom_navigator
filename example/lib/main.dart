@@ -374,6 +374,7 @@ class _MainScreenState extends State<MainScreen> {
         return NotchedNavBottomBar(
           items: _navItems,
           blurAmount: 5,
+
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
           centerButton: fab,
           hideOnScroll: false,
