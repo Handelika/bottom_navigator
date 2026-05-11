@@ -67,6 +67,8 @@ You can customize the selection indicator using the `IndicatorStyle` classes:
 - `CircleIndicatorStyle()`
 - `IndicatorStyle.none`
 
+You can also customize the "More" overflow button using `moreButtonLabel`, `moreButtonWidget`, and `showSelectedMoreItem`.
+
 ### Handling Scroll
 
 To hide the bar when scrolling, simply provide your `ScrollController`:

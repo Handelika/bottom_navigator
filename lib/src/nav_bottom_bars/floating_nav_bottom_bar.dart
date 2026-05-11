@@ -24,6 +24,9 @@ class FloatingNavBottomBar extends StatelessWidget {
   final bool showLabels;
   final IndicatorStyle indicatorStyle;
   final TextStyle? textStyle;
+  final bool showSelectedMoreItem;
+  final String? moreButtonLabel;
+  final Widget? moreButtonWidget;
   final ValueChanged<int>? onTap;
 
   const FloatingNavBottomBar({
@@ -45,6 +48,9 @@ class FloatingNavBottomBar extends StatelessWidget {
     this.animationDuration = const Duration(milliseconds: 400),
     this.centerButton,
     this.showLabels = true,
+    this.showSelectedMoreItem = true,
+    this.moreButtonLabel,
+    this.moreButtonWidget,
     this.indicatorStyle = const PillIndicatorStyle(),
     this.textStyle,
     this.onTap,
@@ -71,6 +77,9 @@ class FloatingNavBottomBar extends StatelessWidget {
       centerButton: centerButton,
       centerButtonStyle: CenterButtonStyle.floating,
       showLabels: showLabels,
+      showSelectedMoreItem: showSelectedMoreItem,
+      moreButtonLabel: moreButtonLabel,
+      moreButtonWidget: moreButtonWidget,
       indicatorStyle: indicatorStyle,
       navBarStyle: NavBarStyle.floating,
       textStyle: textStyle,

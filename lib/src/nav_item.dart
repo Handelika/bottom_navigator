@@ -12,7 +12,8 @@ class BottomNavItem {
   /// If provided, [icon] will be ignored.
   final Widget? customWidget;
 
-  /// The color of the item when it is active.
+  /// The color of the item when it is active (selected).
+  /// This affects the icon color and indicator color.
   /// If null, the active color from the nav bar's theme will be used.
   final Color? activeColor;
 

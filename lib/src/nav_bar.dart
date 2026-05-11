@@ -34,6 +34,9 @@ class BottomNavBar extends StatefulWidget {
   final IndicatorStyle indicatorStyle;
   final NavBarStyle navBarStyle;
   final TextStyle? textStyle;
+  final bool showSelectedMoreItem;
+  final String? moreButtonLabel;
+  final Widget? moreButtonWidget;
   final ValueChanged<int>? onTap;
 
   const BottomNavBar({
@@ -55,6 +58,9 @@ class BottomNavBar extends StatefulWidget {
     this.centerButton,
     this.centerButtonStyle = CenterButtonStyle.none,
     this.showLabels = true,
+    this.showSelectedMoreItem = true,
+    this.moreButtonLabel,
+    this.moreButtonWidget,
     this.indicatorStyle = const PillIndicatorStyle(),
     this.animationDuration = const Duration(milliseconds: 400),
     this.navBarStyle = NavBarStyle.floating,
@@ -195,7 +201,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
           children: [
             // Spacer to ensure the Stack is tall enough for floating center buttons and expanded More menu
             SizedBox(
-              height: barHeight + (isDocked ? 0 : widget.margin.bottom) + (isTablet ? 350 : 250),
+              height:
+                  barHeight +
+                  (isDocked ? 0 : widget.margin.bottom) +
+                  (isTablet ? 350 : 250),
             ),
 
             // 1. The Main Navigation Bar
@@ -264,6 +273,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
                                 animationDuration: widget.animationDuration,
                                 iconCurve: widget.iconCurve,
                                 textStyle: widget.textStyle,
+                                showSelectedMoreItem:
+                                    widget.showSelectedMoreItem,
+                                moreButtonLabel: widget.moreButtonLabel,
+                                moreButtonWidget: widget.moreButtonWidget,
                                 indicatorMetrics: indicatorMetrics,
                                 indicatorColors: widget.indicatorColors,
                                 onItemTapped: _onItemTapped,

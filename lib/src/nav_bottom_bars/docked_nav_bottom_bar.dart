@@ -24,6 +24,9 @@ class DockedNavBottomBar extends StatelessWidget {
   final bool showLabels;
   final IndicatorStyle indicatorStyle;
   final TextStyle? textStyle;
+  final bool showSelectedMoreItem;
+  final String? moreButtonLabel;
+  final Widget? moreButtonWidget;
   final ValueChanged<int>? onTap;
 
   const DockedNavBottomBar({
@@ -45,6 +48,9 @@ class DockedNavBottomBar extends StatelessWidget {
     this.animationDuration = const Duration(milliseconds: 400),
     this.centerButton,
     this.showLabels = true,
+    this.showSelectedMoreItem = true,
+    this.moreButtonLabel,
+    this.moreButtonWidget,
     this.indicatorStyle = const PillIndicatorStyle(),
     this.textStyle,
     this.onTap,
@@ -71,6 +77,9 @@ class DockedNavBottomBar extends StatelessWidget {
       centerButton: centerButton,
       centerButtonStyle: CenterButtonStyle.none,
       showLabels: showLabels,
+      showSelectedMoreItem: showSelectedMoreItem,
+      moreButtonLabel: moreButtonLabel,
+      moreButtonWidget: moreButtonWidget,
       indicatorStyle: indicatorStyle,
       navBarStyle: NavBarStyle.docked,
       textStyle: textStyle,

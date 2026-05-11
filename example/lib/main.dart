@@ -62,6 +62,7 @@ class _MainScreenState extends State<MainScreen> {
     BottomNavItem(
       icon: Icons.home_rounded,
       label: 'Home',
+      activeColor: Colors.amber,
       // activeColor: Color(0xFF6366F1),
     ),
     BottomNavItem(
@@ -325,14 +326,14 @@ class _MainScreenState extends State<MainScreen> {
       case _NavVariant.classic:
         return ClassicNavBottomBar(
           items: _navItems,
-          blurAmount: 5,
+          blurAmount: 25,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
           hideOnScroll: false,
+          textStyle: TextStyle(fontSize: 20),
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,
           animationDuration: const Duration(milliseconds: 300),
           showLabels: _showLabels,
-          indicatorStyle: _indicatorStyle,
           borderRadius: _borderRadius,
           onTap: _handleIndexChanged,
         );
@@ -342,6 +343,9 @@ class _MainScreenState extends State<MainScreen> {
           blurAmount: 5,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
           hideOnScroll: false,
+          moreButtonLabel: "fababababababa",
+          moreButtonWidget: const FlutterLogo(),
+          showSelectedMoreItem: true,
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,
           centerButton: fab,

@@ -83,11 +83,19 @@ class NavMoreMenu extends StatelessWidget {
                           : Colors.transparent,
                       child: Row(
                         children: [
-                          Icon(
-                            item.icon,
-                            color: isSelected ? selectedColor : unselectedColor,
-                            size: isTablet ? 28 : 20,
-                          ),
+                          item.customWidget != null
+                              ? SizedBox(
+                                  width: isTablet ? 28 : 20,
+                                  height: isTablet ? 28 : 20,
+                                  child: Center(child: item.customWidget),
+                                )
+                              : Icon(
+                                  item.icon,
+                                  color: isSelected
+                                      ? (item.activeColor ?? selectedColor)
+                                      : unselectedColor,
+                                  size: isTablet ? 28 : 20,
+                                ),
                           SizedBox(width: isTablet ? 18 : 12),
                           Expanded(
                             child: Text(

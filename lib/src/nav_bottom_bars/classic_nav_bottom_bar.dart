@@ -23,6 +23,9 @@ class ClassicNavBottomBar extends StatelessWidget {
   final bool showLabels;
   final IndicatorStyle indicatorStyle;
   final TextStyle? textStyle;
+  final bool showSelectedMoreItem;
+  final String? moreButtonLabel;
+  final Widget? moreButtonWidget;
   final ValueChanged<int>? onTap;
 
   const ClassicNavBottomBar({
@@ -42,6 +45,9 @@ class ClassicNavBottomBar extends StatelessWidget {
     this.indicatorCurve = Curves.easeOutBack,
     this.iconCurve = Curves.easeInOut,
     this.showLabels = true,
+    this.showSelectedMoreItem = true,
+    this.moreButtonLabel,
+    this.moreButtonWidget,
     this.indicatorStyle = const PillIndicatorStyle(),
     this.animationDuration = const Duration(milliseconds: 400),
     this.textStyle,
@@ -67,6 +73,9 @@ class ClassicNavBottomBar extends StatelessWidget {
       iconCurve: iconCurve,
       animationDuration: animationDuration,
       showLabels: showLabels,
+      showSelectedMoreItem: showSelectedMoreItem,
+      moreButtonLabel: moreButtonLabel,
+      moreButtonWidget: moreButtonWidget,
       indicatorStyle: indicatorStyle,
       navBarStyle: NavBarStyle.docked,
       textStyle: textStyle,

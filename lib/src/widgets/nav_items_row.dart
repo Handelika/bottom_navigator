@@ -14,6 +14,9 @@ class NavItemsRow extends StatelessWidget {
   final int midIndex;
   final bool hasExternalCenterButton;
   final bool showLabels;
+  final bool showSelectedMoreItem;
+  final String? moreButtonLabel;
+  final Widget? moreButtonWidget;
   final Duration animationDuration;
   final Curve iconCurve;
   final bool isTablet;
@@ -35,12 +38,15 @@ class NavItemsRow extends StatelessWidget {
     required this.midIndex,
     required this.hasExternalCenterButton,
     required this.showLabels,
+    required this.showSelectedMoreItem,
     required this.animationDuration,
     required this.iconCurve,
     required this.indicatorMetrics,
     required this.indicatorColors,
     required this.onItemTapped,
     required this.onToggleMore,
+    this.moreButtonLabel,
+    this.moreButtonWidget,
     this.isTablet = false,
     this.textStyle,
   });
@@ -124,7 +130,7 @@ class NavItemsRow extends StatelessWidget {
                               Icon(
                                 item.icon,
                                 color: isSelected
-                                    ? selectedColor
+                                    ? (item.activeColor ?? selectedColor)
                                     : unselectedColor,
                                 size: iconSize,
                               ),
@@ -172,7 +178,8 @@ class NavItemsRow extends StatelessWidget {
           (selectedExtraIndex >= 0 && selectedExtraIndex < extraItems.length)
           ? extraItems[selectedExtraIndex]
           : null;
-      final isMoreSelected = isMoreOpen || selectedExtraItem != null;
+      final isMoreSelected =
+          isMoreOpen || (showSelectedMoreItem && selectedExtraItem != null);
 
       children.add(
         Expanded(
@@ -222,22 +229,39 @@ class NavItemsRow extends StatelessWidget {
                                 : (isMoreSelected ? selectedScale : 1.0),
                           ),
                         transformAlignment: Alignment.center,
-                        child: Icon(
-                          isMoreOpen
-                              ? Icons.close
-                              : (selectedExtraItem?.icon ??
-                                    Icons.more_horiz_rounded),
-                          color: isMoreSelected
-                              ? selectedColor
-                              : unselectedColor,
-                          size: iconSize,
-                        ),
+                        child: isMoreOpen
+                            ? Icon(
+                                Icons.close,
+                                color: isMoreSelected
+                                    ? selectedColor
+                                    : unselectedColor,
+                                size: iconSize,
+                              )
+                            : (showSelectedMoreItem && selectedExtraItem != null
+                                  ? (selectedExtraItem.customWidget ??
+                                        Icon(
+                                          selectedExtraItem.icon,
+                                          color: isMoreSelected
+                                              ? selectedColor
+                                              : unselectedColor,
+                                          size: iconSize,
+                                        ))
+                                  : (moreButtonWidget ??
+                                        Icon(
+                                          Icons.more_horiz_rounded,
+                                          color: isMoreSelected
+                                              ? selectedColor
+                                              : unselectedColor,
+                                          size: iconSize,
+                                        ))),
                       ),
                       if (showLabels && isMoreSelected)
                         Padding(
                           padding: EdgeInsets.only(top: labelPadding),
                           child: Text(
-                            selectedExtraItem?.label ?? 'More',
+                            showSelectedMoreItem && selectedExtraItem != null
+                                ? selectedExtraItem.label
+                                : (moreButtonLabel ?? 'More'),
                             style:
                                 (textStyle ??
                                         Theme.of(context).textTheme.bodyMedium!)
