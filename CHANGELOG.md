@@ -4,6 +4,13 @@
 * Clarified documentation and install instructions.
 * Confirmed support for all current indicator styles, including Pill, Line, Square, Circle, and None.
 * Reinforced scroll-to-hide behavior and overflow handling in docs.
+* Added support for custom widget in BottomNavItem.
+* Added tablet and phone responsiveness.
+* Added active color foe navigation item.
+* Added text style foe navigation item.(In Beta)
+* Classic Navigation Bottom bar updated
+* Reformated names for better readability.
+
 
 ## 0.0.1
 

@@ -59,6 +59,26 @@ FloatingNavBottomBar(
 )
 ```
 
+### Docked Bar
+
+```dart
+DockedNavBottomBar(
+  items: navItems,
+  currentIndex: _selectedIndex,
+  onTap: (index) => setState(() => _selectedIndex = index),
+)
+```
+
+### Notched Bar
+
+```dart
+NotchedNavBottomBar(
+  items: navItems,
+  currentIndex: _selectedIndex,
+  onTap: (index) => setState(() => _selectedIndex = index),
+)
+```
+
 ## 🎨 Customization
 
 You can customize the selection indicator using the `IndicatorStyle` classes:
