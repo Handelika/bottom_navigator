@@ -330,6 +330,7 @@ class _MainScreenState extends State<MainScreen> {
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
           hideOnScroll: false,
           textStyle: TextStyle(fontSize: 20),
+          padding: EdgeInsets.all(9),
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,
           animationDuration: const Duration(milliseconds: 300),

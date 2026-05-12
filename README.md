@@ -3,6 +3,8 @@
 [![pub package](https://img.shields.io/pub/v/bottom_navigator.svg)](https://pub.dev/packages/bottom_navigator)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
+Current stable release: `0.0.2`
+
 A premium, glassmorphic bottom navigation bar for Flutter. Elevate your app's UI with fluid animations, multiple layout variants, and automatic overflow management.
 
 ![Bottom Navigator Banner](assets/banner.png)
@@ -23,7 +25,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  bottom_navigator: ^0.0.1
+  bottom_navigator: ^0.0.2
 ```
 
 ## 🛠️ Usage

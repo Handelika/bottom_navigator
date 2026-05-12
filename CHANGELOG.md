@@ -1,3 +1,10 @@
+## 0.0.2
+
+* Updated package release to `0.0.2`.
+* Clarified documentation and install instructions.
+* Confirmed support for all current indicator styles, including Pill, Line, Square, Circle, and None.
+* Reinforced scroll-to-hide behavior and overflow handling in docs.
+
 ## 0.0.1
 
 * Initial release of `bottom_navigator`.

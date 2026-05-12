@@ -200,12 +200,12 @@ class _BottomNavBarState extends State<BottomNavBar> {
           clipBehavior: Clip.none,
           children: [
             // Spacer to ensure the Stack is tall enough for floating center buttons and expanded More menu
-            SizedBox(
-              height:
-                  barHeight +
-                  (isDocked ? 0 : widget.margin.bottom) +
-                  (isTablet ? 350 : 250),
-            ),
+            // SizedBox(
+            //   height:
+            //       barHeight +
+            //       (isDocked ? 0 : widget.margin.bottom) +
+            //       (isTablet ? 350 : 250),
+            // ),
 
             // 1. The Main Navigation Bar
             Positioned(
