@@ -43,6 +43,7 @@ class CircleIndicatorStyle extends IndicatorStyle {
 
     return SizedBox.expand(
       child: AnimatedContainer(
+        padding: padding ?? EdgeInsets.all(5),
         duration: animationDuration,
         decoration: BoxDecoration(
           shape: BoxShape.circle,

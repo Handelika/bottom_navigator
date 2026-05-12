@@ -45,6 +45,7 @@ class SquareIndicatorStyle extends IndicatorStyle {
     return SizedBox.expand(
       child: AnimatedContainer(
         duration: animationDuration,
+        padding: padding ?? EdgeInsets.all(3),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(metrics.borderRadius!),
           gradient: LinearGradient(

@@ -335,6 +335,7 @@ class _MainScreenState extends State<MainScreen> {
           animationDuration: const Duration(milliseconds: 300),
           showLabels: _showLabels,
           borderRadius: _borderRadius,
+          indicatorStyle: _indicatorStyle,
           onTap: _handleIndexChanged,
         );
       case _NavVariant.docked:
@@ -343,7 +344,7 @@ class _MainScreenState extends State<MainScreen> {
           blurAmount: 5,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
           hideOnScroll: false,
-          moreButtonLabel: "fababababababa",
+          moreButtonLabel: "fabab",
           moreButtonWidget: const FlutterLogo(),
           showSelectedMoreItem: true,
           scrollController: _scrollController,
