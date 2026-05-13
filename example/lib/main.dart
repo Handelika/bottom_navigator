@@ -48,8 +48,8 @@ class _MainScreenState extends State<MainScreen> {
   _SelectedTab _selectedTab = _SelectedTab.home;
   final ScrollController _scrollController = ScrollController();
   _NavVariant _navVariant = _NavVariant.classic;
-  IndicatorStyle _indicatorStyle = pilledIndicator;
-  bool _showLabels = false;
+  IndicatorStyle _indicatorStyle = circleIndicator;
+  bool _showLabels = true;
   double _borderRadius = 30.0;
 
   void _handleIndexChanged(int index) {

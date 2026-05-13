@@ -249,7 +249,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                             ),
                             child: Container(
                               width: width,
-                              height: isDocked ? barHeight : null,
+                              // height: isDocked ? barHeight : null,
                               padding: EdgeInsets.symmetric(
                                 horizontal: sidePadding,
                                 vertical:

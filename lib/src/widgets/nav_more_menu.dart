@@ -109,7 +109,6 @@ class NavMoreMenu extends StatelessWidget {
                                         color: isSelected
                                             ? selectedColor
                                             : unselectedColor,
-                                        fontSize: isTablet ? 18 : 14,
                                         fontWeight: isSelected
                                             ? FontWeight.bold
                                             : FontWeight.normal,

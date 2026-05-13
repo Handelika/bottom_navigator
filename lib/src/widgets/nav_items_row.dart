@@ -145,14 +145,15 @@ class NavItemsRow extends StatelessWidget {
                                     child: Text(
                                       item.label,
                                       style:
-                                          textStyle ??
-                                          Theme.of(
-                                            context,
-                                          ).textTheme.bodyMedium!.copyWith(
-                                            color: selectedColor,
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: labelSize,
-                                          ),
+                                          (textStyle ??
+                                                  Theme.of(
+                                                    context,
+                                                  ).textTheme.bodyMedium!)
+                                              .copyWith(
+                                                color: selectedColor,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: labelSize,
+                                              ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
@@ -262,14 +263,13 @@ class NavItemsRow extends StatelessWidget {
                                 ? selectedExtraItem.label
                                 : (moreButtonLabel ?? 'More'),
                             style:
-                                textStyle ??
-                                Theme.of(
-                                  context,
-                                ).textTheme.bodyMedium!.copyWith(
-                                  color: selectedColor,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: labelSize,
-                                ),
+                                (textStyle ??
+                                        Theme.of(context).textTheme.bodyMedium!)
+                                    .copyWith(
+                                      color: selectedColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: labelSize,
+                                    ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),

@@ -57,6 +57,7 @@ class LineIndicatorStyle extends IndicatorStyle {
         duration: animationDuration,
         width: metrics.width,
         height: metrics.height,
+        alignment: Alignment.bottomCenter,
         decoration: BoxDecoration(
           color: primaryColor,
           borderRadius: BorderRadius.circular(metrics.borderRadius ?? 0),
