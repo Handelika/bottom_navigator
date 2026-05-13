@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
 import 'indicator_style.dart';
 
-/// An indicator style that renders a perfect circle behind the active item.
-///
-/// This style uses a radial gradient and a subtle glow effect to create a
-/// premium, glassmorphic appearance.
 class CircleIndicatorStyle extends IndicatorStyle {
   const CircleIndicatorStyle({this.indicatorColor, this.border, this.padding});
 
@@ -41,10 +37,11 @@ class CircleIndicatorStyle extends IndicatorStyle {
         indicatorColors?.first ??
         theme.colorScheme.primary;
 
-    return SizedBox.expand(
+    return Center(
       child: AnimatedContainer(
-        padding: padding ?? EdgeInsets.all(5),
         duration: animationDuration,
+
+        padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: primaryColor.withValues(alpha: 0.15),

@@ -97,16 +97,13 @@ class NavItemsRow extends StatelessWidget {
                             indicatorMetrics.style != IndicatorStyle.none)
                         ? 1
                         : 0,
-                    child: Padding(
-                      padding: indicatorMetrics.padding,
-                      child: indicatorMetrics.style.buildIndicator(
-                        context: context,
-                        isSelected: isSelected,
-                        metrics: indicatorMetrics,
-                        animationDuration: animationDuration,
-                        itemColor: item.activeColor,
-                        indicatorColors: indicatorColors,
-                      ),
+                    child: indicatorMetrics.style.buildIndicator(
+                      context: context,
+                      isSelected: isSelected,
+                      metrics: indicatorMetrics,
+                      animationDuration: animationDuration,
+                      itemColor: item.activeColor,
+                      indicatorColors: indicatorColors,
                     ),
                   ),
                 ),

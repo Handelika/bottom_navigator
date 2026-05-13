@@ -47,7 +47,7 @@ class BottomNavBar extends StatefulWidget {
     this.blurAmount = 15.0,
     this.borderRadius = 30.0,
     this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-    this.margin = const EdgeInsets.all(20),
+    this.margin = const EdgeInsets.all(15),
     this.indicatorColors,
     this.selectedItemColor,
     this.unselectedItemColor,
@@ -252,9 +252,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                               // height: isDocked ? barHeight : null,
                               padding: EdgeInsets.symmetric(
                                 horizontal: sidePadding,
-                                vertical:
-                                    widget.padding.vertical /
-                                    (isTablet ? 2.0 : 1.5),
+                                vertical: widget.padding.vertical / 2,
                               ),
                               child: NavItemsRow(
                                 displayItems: displayItems,

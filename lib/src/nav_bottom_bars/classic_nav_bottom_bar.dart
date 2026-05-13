@@ -36,7 +36,7 @@ class ClassicNavBottomBar extends StatelessWidget {
     this.blurAmount = 15.0,
     this.borderRadius = 30.0,
     this.padding = const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-    this.margin = const EdgeInsets.all(20),
+    this.margin = const EdgeInsets.all(15),
     this.indicatorColors,
     this.selectedItemColor,
     this.unselectedItemColor,
