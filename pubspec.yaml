@@ -1,6 +1,6 @@
 name: bottom_navigator
 description: "A premium, glassmorphic bottom navigation bar for Flutter with multiple variants (Floating, Docked, Notched), fluid animations, and automatic item overflow management."
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/handelika/bottom_navigator
 repository: https://github.com/handelika/bottom_navigator
 topics:

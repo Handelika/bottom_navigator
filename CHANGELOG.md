@@ -1,3 +1,10 @@
+## 0.0.3
+
+* Added custom Badge support (`BottomNavBadge`) to navigation items.
+* Supports numeric, text, and dot-only badges.
+* Supports custom badge backgrounds, text styles, and offsets.
+* Automatically shows a summary dot badge on the "More" button when hidden items have active badges.
+
 ## 0.0.2
 
 * Updated package release to `0.0.2`.

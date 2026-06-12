@@ -63,30 +63,29 @@ class _MainScreenState extends State<MainScreen> {
       icon: Icons.home_rounded,
       label: 'Home',
       activeColor: Colors.amber,
-      // activeColor: Color(0xFF6366F1),
     ),
     BottomNavItem(
       icon: Icons.search_rounded,
       label: 'Search',
-      // activeColor: Color(0xFF10B981),
+      badge: const BottomNavBadge(text: '5', color: Colors.blue),
     ),
     BottomNavItem(
       icon: Icons.favorite_rounded,
       label: 'Likes',
-      // activeColor: Colors.deepOrange,
+      badge: const BottomNavBadge(color: Colors.red),
     ),
-    BottomNavItem(
-      icon: Icons.person_rounded,
-      label: 'Profile',
-      // activeColor: Color(0xFFF59E0B),
-    ),
+    BottomNavItem(icon: Icons.person_rounded, label: 'Profile'),
     BottomNavItem(
       icon: Icons.map,
       label: 'Maps',
+      badge: const BottomNavBadge(
+        text: 'NEW',
+        color: Colors.green,
+        textStyle: TextStyle(fontSize: 7, fontWeight: FontWeight.w900),
+      ),
       onTap: () {
         _logMapsClick();
       },
-      // activeColor: Color(0xFFF59E0B),
     ),
     BottomNavItem(
       icon: Icons.settings,
@@ -94,13 +93,11 @@ class _MainScreenState extends State<MainScreen> {
       onTap: () {
         _logSettingsClick();
       },
-      // activeColor: Color(0xFFF59E0B),
     ),
     BottomNavItem(
       icon: Icons.settings,
       label: 'Flutter',
       customWidget: FlutterLogo(size: 24),
-      // activeColor: Color(0xFFF59E0B),
     ),
   ];
 

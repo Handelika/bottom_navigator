@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import '../nav_item.dart';
+import '../nav_badge.dart';
 
 class NavMoreMenu extends StatelessWidget {
   final bool isMoreOpen;
@@ -16,6 +17,7 @@ class NavMoreMenu extends StatelessWidget {
   final ValueChanged<int> onItemTap;
   final bool isTablet;
   final double horizontalMargin;
+  final double bottomPadding;
 
   const NavMoreMenu({
     super.key,
@@ -32,6 +34,7 @@ class NavMoreMenu extends StatelessWidget {
     required this.onItemTap,
     this.isTablet = false,
     this.horizontalMargin = 0.0,
+    this.bottomPadding = 0.0,
   });
 
   @override
@@ -39,7 +42,7 @@ class NavMoreMenu extends StatelessWidget {
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeOutBack,
-      bottom: isMoreOpen ? (isTablet ? 110 : 80) : -400,
+      bottom: isMoreOpen ? (isTablet ? 110 : 80) + bottomPadding : -400,
       right: horizontalMargin + (isTablet ? 40 : 0),
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 300),
@@ -83,19 +86,22 @@ class NavMoreMenu extends StatelessWidget {
                           : Colors.transparent,
                       child: Row(
                         children: [
-                          item.customWidget != null
-                              ? SizedBox(
-                                  width: isTablet ? 28 : 20,
-                                  height: isTablet ? 28 : 20,
-                                  child: Center(child: item.customWidget),
-                                )
-                              : Icon(
-                                  item.icon,
-                                  color: isSelected
-                                      ? (item.activeColor ?? selectedColor)
-                                      : unselectedColor,
-                                  size: isTablet ? 28 : 20,
-                                ),
+                          _buildBadge(
+                            item.customWidget != null
+                                ? SizedBox(
+                                    width: isTablet ? 28 : 20,
+                                    height: isTablet ? 28 : 20,
+                                    child: Center(child: item.customWidget),
+                                  )
+                                : Icon(
+                                    item.icon,
+                                    color: isSelected
+                                        ? (item.activeColor ?? selectedColor)
+                                        : unselectedColor,
+                                    size: isTablet ? 28 : 20,
+                                  ),
+                            item.badge,
+                          ),
                           SizedBox(width: isTablet ? 18 : 12),
                           Expanded(
                             child: Text(
@@ -126,6 +132,57 @@ class NavMoreMenu extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildBadge(Widget child, BottomNavBadge? badge) {
+    if (badge == null || !badge.showBadge) return child;
+
+    final isDot = badge.text == null || badge.text!.isEmpty;
+
+    Widget badgeWidget;
+    if (isDot) {
+      badgeWidget = Container(
+        width: 8.0,
+        height: 8.0,
+        decoration: BoxDecoration(
+          color: badge.color ?? Colors.red,
+          shape: BoxShape.circle,
+        ),
+      );
+    } else {
+      badgeWidget = Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+        constraints: const BoxConstraints(
+          minWidth: 16.0,
+          minHeight: 16.0,
+        ),
+        decoration: BoxDecoration(
+          color: badge.color ?? Colors.red,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Text(
+          badge.text!,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 9.0,
+            fontWeight: FontWeight.bold,
+          ).merge(badge.textStyle),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        child,
+        Positioned(
+          top: badge.offset?.dy ?? -8.0,
+          right: badge.offset?.dx ?? -8.0,
+          child: badgeWidget,
+        ),
+      ],
     );
   }
 }

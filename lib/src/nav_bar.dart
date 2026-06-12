@@ -156,6 +156,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
         final bool isTablet = NavLayoutUtils.isTablet(constraints.maxWidth);
         final bool isDocked = widget.navBarStyle == NavBarStyle.docked;
+        final double bottomPadding = isDocked ? MediaQuery.of(context).padding.bottom : 0.0;
         final screenSize = MediaQuery.of(context).size;
         final double barHeight = NavLayoutUtils.getBarHeight(
           isTablet: isTablet,
@@ -199,14 +200,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
           alignment: Alignment.bottomCenter,
           clipBehavior: Clip.none,
           children: [
-            // Spacer to ensure the Stack is tall enough for floating center buttons and expanded More menu
-            // SizedBox(
-            //   height:
-            //       barHeight +
-            //       (isDocked ? 0 : widget.margin.bottom) +
-            //       (isTablet ? 350 : 250),
-            // ),
-
             // 1. The Main Navigation Bar
             Positioned(
               bottom: 0,
@@ -249,10 +242,11 @@ class _BottomNavBarState extends State<BottomNavBar> {
                             ),
                             child: Container(
                               width: width,
-                              // height: isDocked ? barHeight : null,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: sidePadding,
-                                vertical: widget.padding.vertical / 2,
+                              padding: EdgeInsets.only(
+                                left: sidePadding,
+                                right: sidePadding,
+                                top: widget.padding.top,
+                                bottom: widget.padding.bottom + bottomPadding,
                               ),
                               child: NavItemsRow(
                                 displayItems: displayItems,
@@ -303,7 +297,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   curve: Curves.easeInOutCubic,
                   child: Container(
                     margin: isDocked ? EdgeInsets.zero : widget.margin,
-                    height: barHeight,
+                    padding: EdgeInsets.only(
+                      bottom: bottomPadding,
+                    ),
+                    height: barHeight + bottomPadding,
                     alignment: Alignment.bottomCenter,
                     clipBehavior: Clip.none,
                     child: Stack(
@@ -313,9 +310,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         Positioned(
                           top:
                               widget.centerButtonStyle ==
-                                  CenterButtonStyle.notched
-                              ? -25
-                              : -30,
+                                      CenterButtonStyle.notched
+                                  ? -25
+                                  : -30,
                           child: widget.centerButton!,
                         ),
                       ],
@@ -335,7 +332,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 curve: Curves.easeInOutCubic,
                 child: Container(
                   margin: isDocked ? EdgeInsets.zero : widget.margin,
-                  height: barHeight,
+                  padding: EdgeInsets.only(
+                    bottom: bottomPadding,
+                  ),
+                  height: barHeight + bottomPadding,
                   alignment: Alignment.bottomCenter,
                   clipBehavior: Clip.none,
                   child: NavCenterActionOverlays(
@@ -370,6 +370,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 },
                 isTablet: isTablet,
                 horizontalMargin: isDocked ? 0.0 : widget.margin.right,
+                bottomPadding: bottomPadding,
               ),
           ],
         );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'nav_badge.dart';
 
 /// A model representing a single item in the [BottomNavBar].
 class BottomNavItem {
@@ -27,6 +28,9 @@ class BottomNavItem {
   /// Optional callback fired when this item is tapped.
   final VoidCallback? onTap;
 
+  /// Optional badge to display on top of this item's icon/widget.
+  final BottomNavBadge? badge;
+
   const BottomNavItem({
     required this.icon,
     required this.label,
@@ -35,5 +39,6 @@ class BottomNavItem {
     this.customWidget,
     this.isCenterAction = false,
     this.onTap,
+    this.badge,
   });
 }

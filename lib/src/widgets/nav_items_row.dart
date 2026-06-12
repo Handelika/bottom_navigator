@@ -116,21 +116,24 @@ class NavItemsRow extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        AnimatedContainer(
-                          duration: animationDuration,
-                          curve: iconCurve,
-                          transform: Matrix4.identity()
-                            ..scaleAdjoint(isSelected ? selectedScale : 1.0),
-                          transformAlignment: Alignment.center,
-                          child:
-                              item.customWidget ??
-                              Icon(
-                                item.icon,
-                                color: isSelected
-                                    ? (item.activeColor ?? selectedColor)
-                                    : unselectedColor,
-                                size: iconSize,
-                              ),
+                        _buildBadge(
+                          AnimatedContainer(
+                            duration: animationDuration,
+                            curve: iconCurve,
+                            transform: Matrix4.identity()
+                              ..scaleAdjoint(isSelected ? selectedScale : 1.0),
+                            transformAlignment: Alignment.center,
+                            child:
+                                item.customWidget ??
+                                Icon(
+                                  item.icon,
+                                  color: isSelected
+                                      ? (item.activeColor ?? selectedColor)
+                                      : unselectedColor,
+                                  size: iconSize,
+                                ),
+                          ),
+                          item.badge,
                         ),
                         if (showLabels)
                           AnimatedSize(
@@ -216,41 +219,50 @@ class NavItemsRow extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      AnimatedContainer(
-                        duration: animationDuration,
-                        curve: iconCurve,
-                        transform: Matrix4.identity()
-                          ..scaleAdjoint(
-                            isMoreOpen
-                                ? moreOpenScale
-                                : (isMoreSelected ? selectedScale : 1.0),
-                          ),
-                        transformAlignment: Alignment.center,
-                        child: isMoreOpen
-                            ? Icon(
-                                Icons.close,
-                                color: isMoreSelected
-                                    ? selectedColor
-                                    : unselectedColor,
-                                size: iconSize,
-                              )
-                            : (showSelectedMoreItem && selectedExtraItem != null
-                                  ? (selectedExtraItem.customWidget ??
-                                        Icon(
-                                          selectedExtraItem.icon,
-                                          color: isMoreSelected
-                                              ? selectedColor
-                                              : unselectedColor,
-                                          size: iconSize,
-                                        ))
-                                  : (moreButtonWidget ??
-                                        Icon(
-                                          Icons.more_horiz_rounded,
-                                          color: isMoreSelected
-                                              ? selectedColor
-                                              : unselectedColor,
-                                          size: iconSize,
-                                        ))),
+                      _buildBadge(
+                        AnimatedContainer(
+                          duration: animationDuration,
+                          curve: iconCurve,
+                          transform: Matrix4.identity()
+                            ..scaleAdjoint(
+                              isMoreOpen
+                                  ? moreOpenScale
+                                  : (isMoreSelected ? selectedScale : 1.0),
+                            ),
+                          transformAlignment: Alignment.center,
+                          child: isMoreOpen
+                              ? Icon(
+                                  Icons.close,
+                                  color: isMoreSelected
+                                      ? selectedColor
+                                      : unselectedColor,
+                                  size: iconSize,
+                                )
+                              : (showSelectedMoreItem &&
+                                        selectedExtraItem != null
+                                    ? (selectedExtraItem.customWidget ??
+                                          Icon(
+                                            selectedExtraItem.icon,
+                                            color: isMoreSelected
+                                                ? selectedColor
+                                                : unselectedColor,
+                                            size: iconSize,
+                                          ))
+                                    : (moreButtonWidget ??
+                                          Icon(
+                                            Icons.more_horiz_rounded,
+                                            color: isMoreSelected
+                                                ? selectedColor
+                                                : unselectedColor,
+                                            size: iconSize,
+                                          ))),
+                        ),
+                        (!isMoreOpen &&
+                                extraItems.any(
+                                  (e) => e.badge != null && e.badge!.showBadge,
+                                ))
+                            ? const BottomNavBadge(showBadge: true)
+                            : null,
                       ),
                       if (showLabels && isMoreSelected)
                         Padding(
@@ -282,5 +294,53 @@ class NavItemsRow extends StatelessWidget {
     }
 
     return Row(children: children);
+  }
+
+  Widget _buildBadge(Widget child, BottomNavBadge? badge) {
+    if (badge == null || !badge.showBadge) return child;
+
+    final isDot = badge.text == null || badge.text!.isEmpty;
+
+    Widget badgeWidget;
+    if (isDot) {
+      badgeWidget = Container(
+        width: 8.0,
+        height: 8.0,
+        decoration: BoxDecoration(
+          color: badge.color ?? Colors.red,
+          shape: BoxShape.circle,
+        ),
+      );
+    } else {
+      badgeWidget = Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
+        constraints: const BoxConstraints(minWidth: 16.0, minHeight: 16.0),
+        decoration: BoxDecoration(
+          color: badge.color ?? Colors.red,
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        child: Text(
+          badge.text!,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 9.0,
+            fontWeight: FontWeight.bold,
+          ).merge(badge.textStyle),
+          textAlign: TextAlign.center,
+        ),
+      );
+    }
+
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        child,
+        Positioned(
+          top: badge.offset?.dy ?? -8.0,
+          right: badge.offset?.dx ?? -8.0,
+          child: badgeWidget,
+        ),
+      ],
+    );
   }
 }

@@ -81,7 +81,28 @@ NotchedNavBottomBar(
 
 ## 🎨 Customization
 
-You can customize the selection indicator using the `IndicatorStyle` classes:
+### Badges 🔴
+
+You can display numeric, text-based, or dot-only badges on your navigation items. Use the `badge` property in `BottomNavItem` to pass a `BottomNavBadge`:
+
+```dart
+BottomNavItem(
+  icon: Icons.search,
+  label: 'Search',
+  badge: BottomNavBadge(
+    text: '5',
+    color: Colors.blue,
+    textStyle: TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.bold),
+  ),
+)
+```
+
+- **Numeric / Text Badges**: Pass a string to the `text` parameter.
+- **Dot-Only Badges**: Omit the `text` parameter (or pass `null`) to render a simple notification dot.
+- **Customization**: Change background colors via `color`, pass custom text styling via `textStyle`, adjust the position using `offset`, or hide it with `showBadge`.
+- **Overflow Support**: If navigation items overflow into the "More" menu, a dot badge will automatically appear on the "More" button if any of the hidden items have active badges.
+
+### Indicator Styles
 
 - `PillIndicatorStyle()`
 - `LineIndicatorStyle()`
