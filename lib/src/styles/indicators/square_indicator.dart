@@ -18,11 +18,15 @@ class SquareIndicatorStyle extends IndicatorStyle {
     bool isTablet = false,
     bool showLabels = false,
   }) {
+    // Determine the size of the square based on bar height to ensure it fits perfectly.
+    final double size = barHeight - 20.0;
     return IndicatorMetrics(
       style: this,
       padding: EdgeInsets.zero,
       borderRadius: isTablet ? 12 : 8,
       showGlow: false,
+      width: size,
+      height: size,
     );
   }
 
@@ -42,10 +46,13 @@ class SquareIndicatorStyle extends IndicatorStyle {
         indicatorColors?.first ??
         theme.colorScheme.primary;
 
-    return SizedBox.expand(
+    final double size = metrics.height ?? 48.0;
+
+    return Center(
       child: AnimatedContainer(
         duration: animationDuration,
-        padding: padding ?? EdgeInsets.all(3),
+        width: size,
+        height: size,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(metrics.borderRadius!),
           gradient: LinearGradient(

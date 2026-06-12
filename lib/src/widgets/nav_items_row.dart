@@ -78,6 +78,8 @@ class NavItemsRow extends StatelessWidget {
         continue;
       }
 
+      final isCircleStyle = indicatorMetrics.style is CircleIndicatorStyle;
+
       children.add(
         Expanded(
           child: GestureDetector(
@@ -89,52 +91,93 @@ class NavItemsRow extends StatelessWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Positioned.fill(
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 200),
-                    opacity:
-                        (isSelected &&
-                            indicatorMetrics.style != IndicatorStyle.none)
-                        ? 1
-                        : 0,
-                    child: indicatorMetrics.style.buildIndicator(
-                      context: context,
-                      isSelected: isSelected,
-                      metrics: indicatorMetrics,
-                      animationDuration: animationDuration,
-                      itemColor: item.activeColor,
-                      indicatorColors: indicatorColors,
+                if (!isCircleStyle)
+                  Positioned.fill(
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 200),
+                      opacity:
+                          (isSelected &&
+                              indicatorMetrics.style != IndicatorStyle.none)
+                          ? 1
+                          : 0,
+                      child: indicatorMetrics.style.buildIndicator(
+                        context: context,
+                        isSelected: isSelected,
+                        metrics: indicatorMetrics,
+                        animationDuration: animationDuration,
+                        itemColor: item.activeColor,
+                        indicatorColors: indicatorColors,
+                      ),
                     ),
                   ),
-                ),
                 Center(
                   child: Padding(
-                    padding: EdgeInsetsGeometry.all(3),
-
+                    padding: const EdgeInsets.all(3),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        _buildBadge(
-                          AnimatedContainer(
-                            duration: animationDuration,
-                            curve: iconCurve,
-                            transform: Matrix4.identity()
-                              ..scaleAdjoint(isSelected ? selectedScale : 1.0),
-                            transformAlignment: Alignment.center,
-                            child:
-                                item.customWidget ??
-                                Icon(
-                                  item.icon,
-                                  color: isSelected
-                                      ? (item.activeColor ?? selectedColor)
-                                      : unselectedColor,
-                                  size: iconSize,
+                        isCircleStyle
+                            ? Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 200),
+                                    opacity: isSelected ? 1 : 0,
+                                    child: SizedBox(
+                                      width: iconSize + 24,
+                                      height: iconSize + 24,
+                                      child: indicatorMetrics.style.buildIndicator(
+                                        context: context,
+                                        isSelected: isSelected,
+                                        metrics: indicatorMetrics,
+                                        animationDuration: animationDuration,
+                                        itemColor: item.activeColor,
+                                        indicatorColors: indicatorColors,
+                                      ),
+                                    ),
+                                  ),
+                                  _buildBadge(
+                                    AnimatedContainer(
+                                      duration: animationDuration,
+                                      curve: iconCurve,
+                                      transform: Matrix4.identity()
+                                        ..scaleAdjoint(isSelected ? selectedScale : 1.0),
+                                      transformAlignment: Alignment.center,
+                                      child:
+                                          item.customWidget ??
+                                          Icon(
+                                            item.icon,
+                                            color: isSelected
+                                                ? (item.activeColor ?? selectedColor)
+                                                : unselectedColor,
+                                            size: iconSize,
+                                          ),
+                                    ),
+                                    item.badge,
+                                  ),
+                                ],
+                              )
+                            : _buildBadge(
+                                AnimatedContainer(
+                                  duration: animationDuration,
+                                  curve: iconCurve,
+                                  transform: Matrix4.identity()
+                                    ..scaleAdjoint(isSelected ? selectedScale : 1.0),
+                                  transformAlignment: Alignment.center,
+                                  child:
+                                      item.customWidget ??
+                                      Icon(
+                                        item.icon,
+                                        color: isSelected
+                                            ? (item.activeColor ?? selectedColor)
+                                            : unselectedColor,
+                                        size: iconSize,
+                                      ),
                                 ),
-                          ),
-                          item.badge,
-                        ),
+                                item.badge,
+                              ),
                         if (showLabels)
                           AnimatedSize(
                             duration: animationDuration,
@@ -180,6 +223,7 @@ class NavItemsRow extends StatelessWidget {
           : null;
       final isMoreSelected =
           isMoreOpen || (showSelectedMoreItem && selectedExtraItem != null);
+      final isCircleStyle = indicatorMetrics.style is CircleIndicatorStyle;
 
       children.add(
         Expanded(
@@ -192,78 +236,145 @@ class NavItemsRow extends StatelessWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                Positioned.fill(
-                  child: AnimatedOpacity(
-                    duration: const Duration(milliseconds: 200),
-                    opacity:
-                        (isMoreSelected &&
-                            indicatorMetrics.style != IndicatorStyle.none)
-                        ? 1
-                        : 0,
-                    child: Padding(
-                      padding: indicatorMetrics.padding,
-                      child: Center(
-                        child: indicatorMetrics.style.buildIndicator(
-                          context: context,
-                          isSelected: isMoreSelected,
-                          metrics: indicatorMetrics,
-                          animationDuration: animationDuration,
-                          indicatorColors: indicatorColors,
+                if (!isCircleStyle)
+                  Positioned.fill(
+                    child: AnimatedOpacity(
+                      duration: const Duration(milliseconds: 200),
+                      opacity:
+                          (isMoreSelected &&
+                              indicatorMetrics.style != IndicatorStyle.none)
+                          ? 1
+                          : 0,
+                      child: Padding(
+                        padding: indicatorMetrics.padding,
+                        child: Center(
+                          child: indicatorMetrics.style.buildIndicator(
+                            context: context,
+                            isSelected: isMoreSelected,
+                            metrics: indicatorMetrics,
+                            animationDuration: animationDuration,
+                            indicatorColors: indicatorColors,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
                 Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      _buildBadge(
-                        AnimatedContainer(
-                          duration: animationDuration,
-                          curve: iconCurve,
-                          transform: Matrix4.identity()
-                            ..scaleAdjoint(
-                              isMoreOpen
-                                  ? moreOpenScale
-                                  : (isMoreSelected ? selectedScale : 1.0),
-                            ),
-                          transformAlignment: Alignment.center,
-                          child: isMoreOpen
-                              ? Icon(
-                                  Icons.close,
-                                  color: isMoreSelected
-                                      ? selectedColor
-                                      : unselectedColor,
-                                  size: iconSize,
-                                )
-                              : (showSelectedMoreItem &&
-                                        selectedExtraItem != null
-                                    ? (selectedExtraItem.customWidget ??
-                                          Icon(
-                                            selectedExtraItem.icon,
+                      isCircleStyle
+                          ? Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                AnimatedOpacity(
+                                  duration: const Duration(milliseconds: 200),
+                                  opacity: isMoreSelected ? 1 : 0,
+                                  child: SizedBox(
+                                    width: iconSize + 24,
+                                    height: iconSize + 24,
+                                    child: indicatorMetrics.style.buildIndicator(
+                                      context: context,
+                                      isSelected: isMoreSelected,
+                                      metrics: indicatorMetrics,
+                                      animationDuration: animationDuration,
+                                      indicatorColors: indicatorColors,
+                                    ),
+                                  ),
+                                ),
+                                _buildBadge(
+                                  AnimatedContainer(
+                                    duration: animationDuration,
+                                    curve: iconCurve,
+                                    transform: Matrix4.identity()
+                                      ..scaleAdjoint(
+                                        isMoreOpen
+                                            ? moreOpenScale
+                                            : (isMoreSelected ? selectedScale : 1.0),
+                                      ),
+                                    transformAlignment: Alignment.center,
+                                    child: isMoreOpen
+                                        ? Icon(
+                                            Icons.close,
                                             color: isMoreSelected
                                                 ? selectedColor
                                                 : unselectedColor,
                                             size: iconSize,
+                                          )
+                                        : (showSelectedMoreItem &&
+                                                  selectedExtraItem != null
+                                              ? (selectedExtraItem.customWidget ??
+                                                    Icon(
+                                                      selectedExtraItem.icon,
+                                                      color: isMoreSelected
+                                                          ? selectedColor
+                                                          : unselectedColor,
+                                                      size: iconSize,
+                                                    ))
+                                              : (moreButtonWidget ??
+                                                    Icon(
+                                                      Icons.more_horiz_rounded,
+                                                      color: isMoreSelected
+                                                          ? selectedColor
+                                                          : unselectedColor,
+                                                      size: iconSize,
+                                                    ))),
+                                  ),
+                                  (!isMoreOpen &&
+                                          extraItems.any(
+                                            (e) => e.badge != null && e.badge!.showBadge,
                                           ))
-                                    : (moreButtonWidget ??
-                                          Icon(
-                                            Icons.more_horiz_rounded,
-                                            color: isMoreSelected
-                                                ? selectedColor
-                                                : unselectedColor,
-                                            size: iconSize,
-                                          ))),
-                        ),
-                        (!isMoreOpen &&
-                                extraItems.any(
-                                  (e) => e.badge != null && e.badge!.showBadge,
-                                ))
-                            ? const BottomNavBadge(showBadge: true)
-                            : null,
-                      ),
+                                      ? const BottomNavBadge(showBadge: true)
+                                      : null,
+                                ),
+                              ],
+                            )
+                          : _buildBadge(
+                              AnimatedContainer(
+                                duration: animationDuration,
+                                curve: iconCurve,
+                                transform: Matrix4.identity()
+                                  ..scaleAdjoint(
+                                    isMoreOpen
+                                        ? moreOpenScale
+                                        : (isMoreSelected ? selectedScale : 1.0),
+                                  ),
+                                transformAlignment: Alignment.center,
+                                child: isMoreOpen
+                                    ? Icon(
+                                        Icons.close,
+                                        color: isMoreSelected
+                                            ? selectedColor
+                                            : unselectedColor,
+                                        size: iconSize,
+                                      )
+                                    : (showSelectedMoreItem &&
+                                              selectedExtraItem != null
+                                          ? (selectedExtraItem.customWidget ??
+                                                Icon(
+                                                  selectedExtraItem.icon,
+                                                  color: isMoreSelected
+                                                      ? selectedColor
+                                                      : unselectedColor,
+                                                  size: iconSize,
+                                                ))
+                                          : (moreButtonWidget ??
+                                                Icon(
+                                                  Icons.more_horiz_rounded,
+                                                  color: isMoreSelected
+                                                      ? selectedColor
+                                                      : unselectedColor,
+                                                  size: iconSize,
+                                                ))),
+                              ),
+                              (!isMoreOpen &&
+                                      extraItems.any(
+                                        (e) => e.badge != null && e.badge!.showBadge,
+                                      ))
+                                  ? const BottomNavBadge(showBadge: true)
+                                  : null,
+                            ),
                       if (showLabels && isMoreSelected)
                         Padding(
                           padding: EdgeInsets.only(top: labelPadding),
