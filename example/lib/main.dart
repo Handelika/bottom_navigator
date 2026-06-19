@@ -326,7 +326,7 @@ class _MainScreenState extends State<MainScreen> {
           blurAmount: 25,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
           hideOnScroll: true,
-          textStyle: TextStyle(fontSize: 20),
+          textStyle: TextStyle(fontSize: 16),
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,
           animationDuration: const Duration(milliseconds: 300),

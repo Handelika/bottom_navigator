@@ -42,13 +42,13 @@ class NavMoreMenu extends StatelessWidget {
     return AnimatedPositioned(
       duration: const Duration(milliseconds: 400),
       curve: Curves.easeOutBack,
-      bottom: isMoreOpen ? (isTablet ? 110 : 80) + bottomPadding : -400,
+      bottom: isMoreOpen ? (isTablet ? 110 : 100) + bottomPadding : -400,
       right: horizontalMargin + (isTablet ? 40 : 0),
       child: AnimatedOpacity(
         duration: const Duration(milliseconds: 300),
         opacity: isMoreOpen ? 1 : 0,
         child: Container(
-          width: isTablet ? 260 : 150,
+          width: isTablet ? 260 : 180,
           padding: EdgeInsets.all(isTablet ? 16 : 8),
           decoration: BoxDecoration(
             color: backgroundColor,
