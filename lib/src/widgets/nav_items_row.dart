@@ -128,14 +128,16 @@ class NavItemsRow extends StatelessWidget {
                                     child: SizedBox(
                                       width: iconSize + 24,
                                       height: iconSize + 24,
-                                      child: indicatorMetrics.style.buildIndicator(
-                                        context: context,
-                                        isSelected: isSelected,
-                                        metrics: indicatorMetrics,
-                                        animationDuration: animationDuration,
-                                        itemColor: item.activeColor,
-                                        indicatorColors: indicatorColors,
-                                      ),
+                                      child: indicatorMetrics.style
+                                          .buildIndicator(
+                                            context: context,
+                                            isSelected: isSelected,
+                                            metrics: indicatorMetrics,
+                                            animationDuration:
+                                                animationDuration,
+                                            itemColor: item.activeColor,
+                                            indicatorColors: indicatorColors,
+                                          ),
                                     ),
                                   ),
                                   _buildBadge(
@@ -143,14 +145,17 @@ class NavItemsRow extends StatelessWidget {
                                       duration: animationDuration,
                                       curve: iconCurve,
                                       transform: Matrix4.identity()
-                                        ..scaleAdjoint(isSelected ? selectedScale : 1.0),
+                                        ..scaleAdjoint(
+                                          isSelected ? selectedScale : 1.0,
+                                        ),
                                       transformAlignment: Alignment.center,
                                       child:
                                           item.customWidget ??
                                           Icon(
                                             item.icon,
                                             color: isSelected
-                                                ? (item.activeColor ?? selectedColor)
+                                                ? (item.activeColor ??
+                                                      selectedColor)
                                                 : unselectedColor,
                                             size: iconSize,
                                           ),
@@ -164,14 +169,17 @@ class NavItemsRow extends StatelessWidget {
                                   duration: animationDuration,
                                   curve: iconCurve,
                                   transform: Matrix4.identity()
-                                    ..scaleAdjoint(isSelected ? selectedScale : 1.0),
+                                    ..scaleAdjoint(
+                                      isSelected ? selectedScale : 1.0,
+                                    ),
                                   transformAlignment: Alignment.center,
                                   child:
                                       item.customWidget ??
                                       Icon(
                                         item.icon,
                                         color: isSelected
-                                            ? (item.activeColor ?? selectedColor)
+                                            ? (item.activeColor ??
+                                                  selectedColor)
                                             : unselectedColor,
                                         size: iconSize,
                                       ),
@@ -274,13 +282,14 @@ class NavItemsRow extends StatelessWidget {
                                   child: SizedBox(
                                     width: iconSize + 24,
                                     height: iconSize + 24,
-                                    child: indicatorMetrics.style.buildIndicator(
-                                      context: context,
-                                      isSelected: isMoreSelected,
-                                      metrics: indicatorMetrics,
-                                      animationDuration: animationDuration,
-                                      indicatorColors: indicatorColors,
-                                    ),
+                                    child: indicatorMetrics.style
+                                        .buildIndicator(
+                                          context: context,
+                                          isSelected: isMoreSelected,
+                                          metrics: indicatorMetrics,
+                                          animationDuration: animationDuration,
+                                          indicatorColors: indicatorColors,
+                                        ),
                                   ),
                                 ),
                                 _buildBadge(
@@ -291,7 +300,9 @@ class NavItemsRow extends StatelessWidget {
                                       ..scaleAdjoint(
                                         isMoreOpen
                                             ? moreOpenScale
-                                            : (isMoreSelected ? selectedScale : 1.0),
+                                            : (isMoreSelected
+                                                  ? selectedScale
+                                                  : 1.0),
                                       ),
                                     transformAlignment: Alignment.center,
                                     child: isMoreOpen
@@ -304,7 +315,8 @@ class NavItemsRow extends StatelessWidget {
                                           )
                                         : (showSelectedMoreItem &&
                                                   selectedExtraItem != null
-                                              ? (selectedExtraItem.customWidget ??
+                                              ? (selectedExtraItem
+                                                        .customWidget ??
                                                     Icon(
                                                       selectedExtraItem.icon,
                                                       color: isMoreSelected
@@ -323,7 +335,9 @@ class NavItemsRow extends StatelessWidget {
                                   ),
                                   (!isMoreOpen &&
                                           extraItems.any(
-                                            (e) => e.badge != null && e.badge!.showBadge,
+                                            (e) =>
+                                                e.badge != null &&
+                                                e.badge!.showBadge,
                                           ))
                                       ? const BottomNavBadge(showBadge: true)
                                       : null,
@@ -338,7 +352,9 @@ class NavItemsRow extends StatelessWidget {
                                   ..scaleAdjoint(
                                     isMoreOpen
                                         ? moreOpenScale
-                                        : (isMoreSelected ? selectedScale : 1.0),
+                                        : (isMoreSelected
+                                              ? selectedScale
+                                              : 1.0),
                                   ),
                                 transformAlignment: Alignment.center,
                                 child: isMoreOpen
@@ -370,7 +386,9 @@ class NavItemsRow extends StatelessWidget {
                               ),
                               (!isMoreOpen &&
                                       extraItems.any(
-                                        (e) => e.badge != null && e.badge!.showBadge,
+                                        (e) =>
+                                            e.badge != null &&
+                                            e.badge!.showBadge,
                                       ))
                                   ? const BottomNavBadge(showBadge: true)
                                   : null,

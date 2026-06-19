@@ -156,7 +156,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
 
         final bool isTablet = NavLayoutUtils.isTablet(constraints.maxWidth);
         final bool isDocked = widget.navBarStyle == NavBarStyle.docked;
-        final double bottomPadding = isDocked ? MediaQuery.of(context).padding.bottom : 0.0;
+        final double bottomPadding = isDocked
+            ? MediaQuery.of(context).padding.bottom
+            : 0.0;
         final screenSize = MediaQuery.of(context).size;
         final double barHeight = NavLayoutUtils.getBarHeight(
           isTablet: isTablet,
@@ -297,9 +299,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                   curve: Curves.easeInOutCubic,
                   child: Container(
                     margin: isDocked ? EdgeInsets.zero : widget.margin,
-                    padding: EdgeInsets.only(
-                      bottom: bottomPadding,
-                    ),
+                    padding: EdgeInsets.only(bottom: bottomPadding),
                     height: barHeight + bottomPadding,
                     alignment: Alignment.bottomCenter,
                     clipBehavior: Clip.none,
@@ -310,9 +310,9 @@ class _BottomNavBarState extends State<BottomNavBar> {
                         Positioned(
                           top:
                               widget.centerButtonStyle ==
-                                      CenterButtonStyle.notched
-                                  ? -25
-                                  : -30,
+                                  CenterButtonStyle.notched
+                              ? -25
+                              : -30,
                           child: widget.centerButton!,
                         ),
                       ],
@@ -332,9 +332,7 @@ class _BottomNavBarState extends State<BottomNavBar> {
                 curve: Curves.easeInOutCubic,
                 child: Container(
                   margin: isDocked ? EdgeInsets.zero : widget.margin,
-                  padding: EdgeInsets.only(
-                    bottom: bottomPadding,
-                  ),
+                  padding: EdgeInsets.only(bottom: bottomPadding),
                   height: barHeight + bottomPadding,
                   alignment: Alignment.bottomCenter,
                   clipBehavior: Clip.none,

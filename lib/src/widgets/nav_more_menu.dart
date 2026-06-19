@@ -153,10 +153,7 @@ class NavMoreMenu extends StatelessWidget {
     } else {
       badgeWidget = Container(
         padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2.0),
-        constraints: const BoxConstraints(
-          minWidth: 16.0,
-          minHeight: 16.0,
-        ),
+        constraints: const BoxConstraints(minWidth: 16.0, minHeight: 16.0),
         decoration: BoxDecoration(
           color: badge.color ?? Colors.red,
           borderRadius: BorderRadius.circular(10.0),

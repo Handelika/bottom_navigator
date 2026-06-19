@@ -48,10 +48,7 @@ class NavBarBadge extends StatelessWidget {
       return Container(
         width: finalSize,
         height: finalSize,
-        decoration: BoxDecoration(
-          color: badgeColor,
-          shape: BoxShape.circle,
-        ),
+        decoration: BoxDecoration(color: badgeColor, shape: BoxShape.circle),
       );
     }
 
@@ -64,10 +61,7 @@ class NavBarBadge extends StatelessWidget {
         horizontal: isTablet ? 6.0 : 4.0,
         vertical: isTablet ? 3.0 : 2.0,
       ),
-      constraints: BoxConstraints(
-        minWidth: finalSize,
-        minHeight: finalSize,
-      ),
+      constraints: BoxConstraints(minWidth: finalSize, minHeight: finalSize),
       decoration: BoxDecoration(
         color: badgeColor,
         borderRadius: BorderRadius.circular(finalSize / 2),
