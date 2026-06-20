@@ -1,3 +1,8 @@
+## 0.0.5
+
+* Updated README.md documentation with absolute asset URLs to ensure images load correctly on pub.dev.
+* Resized documentation preview images to a smaller size for improved visibility.
+
 ## 0.0.4
 
 * Added `centerButtonOffset` parameter to customize the vertical position of the center action button.
