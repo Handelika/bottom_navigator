@@ -32,7 +32,7 @@ dependencies:
 
 ### Classic Bottom Bar
 
-![Classic Navigation Bar](assets/classic_navbar.png)
+<img src="assets/classic_navbar.png" width="450" alt="Classic Navigation Bar" />
 
 ```dart
 ClassicNavBottomBar(
@@ -49,7 +49,7 @@ ClassicNavBottomBar(
 
 ### Floating Glass Bar
 
-![Floating Navigation Bar](assets/floating_navbar.png)
+<img src="assets/floating_navbar.png" width="450" alt="Floating Navigation Bar" />
 
 ```dart
 FloatingNavBottomBar(
@@ -65,7 +65,7 @@ FloatingNavBottomBar(
 
 ### Docked Bar
 
-![Docked Navigation Bar](assets/docked_navbar.png)
+<img src="assets/docked_navbar.png" width="450" alt="Docked Navigation Bar" />
 
 ```dart
 DockedNavBottomBar(
@@ -77,7 +77,7 @@ DockedNavBottomBar(
 
 ### Notched Bar
 
-![Notched Navigation Bar](assets/notched_navbar.png)
+<img src="assets/notched_navbar.png" width="450" alt="Notched Navigation Bar" />
 
 ```dart
 NotchedNavBottomBar(
