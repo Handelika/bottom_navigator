@@ -116,7 +116,9 @@ class NavItemsRow extends StatelessWidget {
                       top: 3,
                       left: 3,
                       right: 3,
-                      bottom: indicatorMetrics.style is LineIndicatorStyle ? 12 : 3,
+                      bottom: indicatorMetrics.style is LineIndicatorStyle
+                          ? 12
+                          : 3,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -273,156 +275,162 @@ class NavItemsRow extends StatelessWidget {
                       top: 3,
                       left: 3,
                       right: 3,
-                      bottom: indicatorMetrics.style is LineIndicatorStyle ? 12.0 : 3.0,
+                      bottom: indicatorMetrics.style is LineIndicatorStyle
+                          ? 12.0
+                          : 3.0,
                     ),
                     child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      isCircleStyle
-                          ? Stack(
-                              alignment: Alignment.center,
-                              children: [
-                                AnimatedOpacity(
-                                  duration: const Duration(milliseconds: 200),
-                                  opacity: isMoreSelected ? 1 : 0,
-                                  child: SizedBox(
-                                    width: iconSize + 24,
-                                    height: iconSize + 24,
-                                    child: indicatorMetrics.style
-                                        .buildIndicator(
-                                          context: context,
-                                          isSelected: isMoreSelected,
-                                          metrics: indicatorMetrics,
-                                          animationDuration: animationDuration,
-                                          indicatorColors: indicatorColors,
-                                        ),
-                                  ),
-                                ),
-                                _buildBadge(
-                                  AnimatedContainer(
-                                    duration: animationDuration,
-                                    curve: iconCurve,
-                                    transform: Matrix4.identity()
-                                      ..scaleAdjoint(
-                                        isMoreOpen
-                                            ? moreOpenScale
-                                            : (isMoreSelected
-                                                  ? selectedScale
-                                                  : 1.0),
-                                      ),
-                                    transformAlignment: Alignment.center,
-                                    child: isMoreOpen
-                                        ? Icon(
-                                            Icons.close,
-                                            color: isMoreSelected
-                                                ? selectedColor
-                                                : unselectedColor,
-                                            size: iconSize,
-                                          )
-                                        : (showSelectedMoreItem &&
-                                                  selectedExtraItem != null
-                                              ? (selectedExtraItem
-                                                        .customWidget ??
-                                                    Icon(
-                                                      selectedExtraItem.icon,
-                                                      color: isMoreSelected
-                                                          ? selectedColor
-                                                          : unselectedColor,
-                                                      size: iconSize,
-                                                    ))
-                                              : (moreButtonWidget ??
-                                                    Icon(
-                                                      Icons.more_horiz_rounded,
-                                                      color: isMoreSelected
-                                                          ? selectedColor
-                                                          : unselectedColor,
-                                                      size: iconSize,
-                                                    ))),
-                                  ),
-                                  (!isMoreOpen &&
-                                          extraItems.any(
-                                            (e) =>
-                                                e.badge != null &&
-                                                e.badge!.showBadge,
-                                          ))
-                                      ? const BottomNavBadge(showBadge: true)
-                                      : null,
-                                ),
-                              ],
-                            )
-                          : _buildBadge(
-                              AnimatedContainer(
-                                duration: animationDuration,
-                                curve: iconCurve,
-                                transform: Matrix4.identity()
-                                  ..scaleAdjoint(
-                                    isMoreOpen
-                                        ? moreOpenScale
-                                        : (isMoreSelected
-                                              ? selectedScale
-                                              : 1.0),
-                                  ),
-                                transformAlignment: Alignment.center,
-                                child: isMoreOpen
-                                    ? Icon(
-                                        Icons.close,
-                                        color: isMoreSelected
-                                            ? selectedColor
-                                            : unselectedColor,
-                                        size: iconSize,
-                                      )
-                                    : (showSelectedMoreItem &&
-                                              selectedExtraItem != null
-                                          ? (selectedExtraItem.customWidget ??
-                                                Icon(
-                                                  selectedExtraItem.icon,
-                                                  color: isMoreSelected
-                                                      ? selectedColor
-                                                      : unselectedColor,
-                                                  size: iconSize,
-                                                ))
-                                          : (moreButtonWidget ??
-                                                Icon(
-                                                  Icons.more_horiz_rounded,
-                                                  color: isMoreSelected
-                                                      ? selectedColor
-                                                      : unselectedColor,
-                                                  size: iconSize,
-                                                ))),
-                              ),
-                              (!isMoreOpen &&
-                                      extraItems.any(
-                                        (e) =>
-                                            e.badge != null &&
-                                            e.badge!.showBadge,
-                                      ))
-                                  ? const BottomNavBadge(showBadge: true)
-                                  : null,
-                            ),
-                      if (showLabels && isMoreSelected)
-                        Padding(
-                          padding: EdgeInsets.only(top: labelPadding),
-                          child: Text(
-                            showSelectedMoreItem && selectedExtraItem != null
-                                ? selectedExtraItem.label
-                                : (moreButtonLabel ?? 'More'),
-                            style:
-                                (textStyle ??
-                                        Theme.of(context).textTheme.bodyMedium!)
-                                    .copyWith(
-                                      color: selectedColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: labelSize,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        isCircleStyle
+                            ? Stack(
+                                alignment: Alignment.center,
+                                children: [
+                                  AnimatedOpacity(
+                                    duration: const Duration(milliseconds: 200),
+                                    opacity: isMoreSelected ? 1 : 0,
+                                    child: SizedBox(
+                                      width: iconSize + 24,
+                                      height: iconSize + 24,
+                                      child: indicatorMetrics.style
+                                          .buildIndicator(
+                                            context: context,
+                                            isSelected: isMoreSelected,
+                                            metrics: indicatorMetrics,
+                                            animationDuration:
+                                                animationDuration,
+                                            indicatorColors: indicatorColors,
+                                          ),
                                     ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                                  ),
+                                  _buildBadge(
+                                    AnimatedContainer(
+                                      duration: animationDuration,
+                                      curve: iconCurve,
+                                      transform: Matrix4.identity()
+                                        ..scaleAdjoint(
+                                          isMoreOpen
+                                              ? moreOpenScale
+                                              : (isMoreSelected
+                                                    ? selectedScale
+                                                    : 1.0),
+                                        ),
+                                      transformAlignment: Alignment.center,
+                                      child: isMoreOpen
+                                          ? Icon(
+                                              Icons.close,
+                                              color: isMoreSelected
+                                                  ? selectedColor
+                                                  : unselectedColor,
+                                              size: iconSize,
+                                            )
+                                          : (showSelectedMoreItem &&
+                                                    selectedExtraItem != null
+                                                ? (selectedExtraItem
+                                                          .customWidget ??
+                                                      Icon(
+                                                        selectedExtraItem.icon,
+                                                        color: isMoreSelected
+                                                            ? selectedColor
+                                                            : unselectedColor,
+                                                        size: iconSize,
+                                                      ))
+                                                : (moreButtonWidget ??
+                                                      Icon(
+                                                        Icons
+                                                            .more_horiz_rounded,
+                                                        color: isMoreSelected
+                                                            ? selectedColor
+                                                            : unselectedColor,
+                                                        size: iconSize,
+                                                      ))),
+                                    ),
+                                    (!isMoreOpen &&
+                                            extraItems.any(
+                                              (e) =>
+                                                  e.badge != null &&
+                                                  e.badge!.showBadge,
+                                            ))
+                                        ? const BottomNavBadge(showBadge: true)
+                                        : null,
+                                  ),
+                                ],
+                              )
+                            : _buildBadge(
+                                AnimatedContainer(
+                                  duration: animationDuration,
+                                  curve: iconCurve,
+                                  transform: Matrix4.identity()
+                                    ..scaleAdjoint(
+                                      isMoreOpen
+                                          ? moreOpenScale
+                                          : (isMoreSelected
+                                                ? selectedScale
+                                                : 1.0),
+                                    ),
+                                  transformAlignment: Alignment.center,
+                                  child: isMoreOpen
+                                      ? Icon(
+                                          Icons.close,
+                                          color: isMoreSelected
+                                              ? selectedColor
+                                              : unselectedColor,
+                                          size: iconSize,
+                                        )
+                                      : (showSelectedMoreItem &&
+                                                selectedExtraItem != null
+                                            ? (selectedExtraItem.customWidget ??
+                                                  Icon(
+                                                    selectedExtraItem.icon,
+                                                    color: isMoreSelected
+                                                        ? selectedColor
+                                                        : unselectedColor,
+                                                    size: iconSize,
+                                                  ))
+                                            : (moreButtonWidget ??
+                                                  Icon(
+                                                    Icons.more_horiz_rounded,
+                                                    color: isMoreSelected
+                                                        ? selectedColor
+                                                        : unselectedColor,
+                                                    size: iconSize,
+                                                  ))),
+                                ),
+                                (!isMoreOpen &&
+                                        extraItems.any(
+                                          (e) =>
+                                              e.badge != null &&
+                                              e.badge!.showBadge,
+                                        ))
+                                    ? const BottomNavBadge(showBadge: true)
+                                    : null,
+                              ),
+                        if (showLabels && isMoreSelected)
+                          Padding(
+                            padding: EdgeInsets.only(top: labelPadding),
+                            child: Text(
+                              showSelectedMoreItem && selectedExtraItem != null
+                                  ? selectedExtraItem.label
+                                  : (moreButtonLabel ?? 'More'),
+                              style:
+                                  (textStyle ??
+                                          Theme.of(
+                                            context,
+                                          ).textTheme.bodyMedium!)
+                                      .copyWith(
+                                        color: selectedColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: labelSize,
+                                      ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
               ],
             ),
           ),

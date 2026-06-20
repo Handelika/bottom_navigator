@@ -314,7 +314,8 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       clipBehavior: Clip.none,
                       children: [
                         Positioned(
-                          top: widget.centerButtonOffset ??
+                          top:
+                              widget.centerButtonOffset ??
                               (widget.centerButtonStyle ==
                                       CenterButtonStyle.notched
                                   ? -25
