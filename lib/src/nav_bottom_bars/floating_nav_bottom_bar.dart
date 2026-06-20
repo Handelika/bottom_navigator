@@ -21,6 +21,8 @@ class FloatingNavBottomBar extends StatelessWidget {
   final Curve iconCurve;
   final Duration animationDuration;
   final Widget? centerButton;
+  final double? centerButtonOffset;
+  final int? centerButtonIndex;
   final bool showLabels;
   final IndicatorStyle indicatorStyle;
   final TextStyle? textStyle;
@@ -47,6 +49,8 @@ class FloatingNavBottomBar extends StatelessWidget {
     this.iconCurve = Curves.easeInOut,
     this.animationDuration = const Duration(milliseconds: 400),
     this.centerButton,
+    this.centerButtonOffset,
+    this.centerButtonIndex,
     this.showLabels = true,
     this.showSelectedMoreItem = true,
     this.moreButtonLabel,
@@ -76,6 +80,8 @@ class FloatingNavBottomBar extends StatelessWidget {
       animationDuration: animationDuration,
       centerButton: centerButton,
       centerButtonStyle: CenterButtonStyle.floating,
+      centerButtonOffset: centerButtonOffset,
+      centerButtonIndex: centerButtonIndex,
       showLabels: showLabels,
       showSelectedMoreItem: showSelectedMoreItem,
       moreButtonLabel: moreButtonLabel,

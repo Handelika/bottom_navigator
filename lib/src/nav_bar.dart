@@ -30,6 +30,8 @@ class BottomNavBar extends StatefulWidget {
   final Duration animationDuration;
   final Widget? centerButton;
   final CenterButtonStyle centerButtonStyle;
+  final double? centerButtonOffset;
+  final int? centerButtonIndex;
   final bool showLabels;
   final IndicatorStyle indicatorStyle;
   final NavBarStyle navBarStyle;
@@ -57,6 +59,8 @@ class BottomNavBar extends StatefulWidget {
     this.iconCurve = Curves.easeInOut,
     this.centerButton,
     this.centerButtonStyle = CenterButtonStyle.none,
+    this.centerButtonOffset,
+    this.centerButtonIndex,
     this.showLabels = true,
     this.showSelectedMoreItem = true,
     this.moreButtonLabel,
@@ -308,12 +312,38 @@ class _BottomNavBarState extends State<BottomNavBar> {
                       clipBehavior: Clip.none,
                       children: [
                         Positioned(
-                          top:
-                              widget.centerButtonStyle ==
-                                  CenterButtonStyle.notched
-                              ? -25
-                              : -30,
-                          child: widget.centerButton!,
+                          top: widget.centerButtonOffset ??
+                              (widget.centerButtonStyle ==
+                                      CenterButtonStyle.notched
+                                  ? -25
+                                  : -30),
+                          child: Stack(
+                            alignment: Alignment.center,
+                            clipBehavior: Clip.none,
+                            children: [
+                              if (_effectiveIndex == widget.centerButtonIndex &&
+                                  widget.centerButtonIndex != null)
+                                Positioned.fill(
+                                  child: indicatorMetrics.style.buildIndicator(
+                                    context: context,
+                                    isSelected: true,
+                                    metrics: indicatorMetrics,
+                                    animationDuration: widget.animationDuration,
+                                    indicatorColors: widget.indicatorColors,
+                                  ),
+                                ),
+                              widget.centerButton!,
+                              if (widget.centerButtonIndex != null)
+                                Positioned.fill(
+                                  child: GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: () {
+                                      _onItemTapped(widget.centerButtonIndex!);
+                                    },
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

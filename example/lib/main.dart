@@ -32,7 +32,16 @@ class BottomNavDemo extends StatelessWidget {
   }
 }
 
-enum _SelectedTab { home, search, likes, profile, maps, settings, flutter }
+enum _SelectedTab {
+  home,
+  search,
+  likes,
+  profile,
+  maps,
+  settings,
+  flutter,
+  center,
+}
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -51,6 +60,7 @@ class _MainScreenState extends State<MainScreen> {
   IndicatorStyle _indicatorStyle = circleIndicator;
   bool _showLabels = true;
   double _borderRadius = 30.0;
+  double _centerButtonOffset = -30.0;
 
   void _handleIndexChanged(int index) {
     setState(() {
@@ -130,6 +140,21 @@ class _MainScreenState extends State<MainScreen> {
       itemCount: 20,
       itemBuilder: (context, i) {
         if (i == 0) {
+          final isCenterTab = index == 7;
+          final String label = isCenterTab
+              ? 'Center Action'
+              : _navItems[index].label;
+          final IconData icon = isCenterTab
+              ? Icons.add_circle_outline_rounded
+              : _navItems[index].icon;
+          final Color startColor = isCenterTab
+              ? Colors.teal
+              : (_navItems[index].activeColor ??
+                    BottomNavBarColors.primaryStart);
+          final Color endColor = isCenterTab
+              ? Colors.tealAccent
+              : (_navItems[index].activeColor ?? BottomNavBarColors.primaryEnd);
+
           return Column(
             children: [
               Container(
@@ -137,34 +162,21 @@ class _MainScreenState extends State<MainScreen> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   gradient: LinearGradient(
-                    colors: [
-                      _navItems[index].activeColor ??
-                          BottomNavBarColors.primaryStart,
-                      (_navItems[index].activeColor ??
-                              BottomNavBarColors.primaryEnd)
-                          .withValues(alpha: 0.7),
-                    ],
+                    colors: [startColor, endColor.withValues(alpha: 0.7)],
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color:
-                          (_navItems[index].activeColor ??
-                                  BottomNavBarColors.primaryStart)
-                              .withValues(alpha: 0.5),
+                      color: startColor.withValues(alpha: 0.5),
                       blurRadius: 40,
                       spreadRadius: 5,
                     ),
                   ],
                 ),
-                child: Icon(
-                  _navItems[index].icon,
-                  size: 64,
-                  color: Colors.white,
-                ),
+                child: Icon(icon, size: 64, color: Colors.white),
               ),
               const SizedBox(height: 24),
               Text(
-                _navItems[index].label,
+                label,
                 style: const TextStyle(
                   fontSize: 32,
                   fontWeight: FontWeight.bold,
@@ -273,6 +285,19 @@ class _MainScreenState extends State<MainScreen> {
                 max: 50,
                 onChanged: (val) => setState(() => _borderRadius = val),
               ),
+              const SizedBox(height: 16),
+              Text(
+                'Center Button Offset: ${_centerButtonOffset.toStringAsFixed(0)}',
+                style: const TextStyle(color: Colors.white, fontSize: 16),
+              ),
+              Slider(
+                value: _centerButtonOffset,
+                activeColor: Colors.deepOrange,
+                inactiveColor: Colors.deepOrange.withValues(alpha: 0.3),
+                min: -60,
+                max: 20,
+                onChanged: (val) => setState(() => _centerButtonOffset = val),
+              ),
               const SizedBox(height: 24),
             ],
           );
@@ -302,17 +327,7 @@ class _MainScreenState extends State<MainScreen> {
       backgroundColor: BottomNavBarColors.glassBackground.withValues(
         alpha: 0.1,
       ),
-      onPressed: () {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Center fab clicked',
-              style: TextStyle(color: Colors.white),
-            ),
-            backgroundColor: BottomNavBarColors.electricBlue,
-          ),
-        );
-      },
+      onPressed: () {},
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: const FlutterLogo(size: 50, curve: Curves.bounceIn),
@@ -347,6 +362,8 @@ class _MainScreenState extends State<MainScreen> {
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,
           centerButton: fab,
+          centerButtonOffset: _centerButtonOffset,
+          centerButtonIndex: 7,
           animationDuration: const Duration(milliseconds: 300),
           showLabels: _showLabels,
           indicatorStyle: _indicatorStyle,
@@ -359,6 +376,8 @@ class _MainScreenState extends State<MainScreen> {
           blurAmount: 5,
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
           centerButton: fab,
+          centerButtonOffset: _centerButtonOffset,
+          centerButtonIndex: 7,
           hideOnScroll: false,
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,
@@ -372,9 +391,10 @@ class _MainScreenState extends State<MainScreen> {
         return NotchedNavBottomBar(
           items: _navItems,
           blurAmount: 5,
-
           currentIndex: _SelectedTab.values.indexOf(_selectedTab),
           centerButton: fab,
+          centerButtonOffset: _centerButtonOffset,
+          centerButtonIndex: 7,
           hideOnScroll: false,
           scrollController: _scrollController,
           indicatorCurve: Curves.easeInCubic,
