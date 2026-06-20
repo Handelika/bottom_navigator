@@ -258,24 +258,22 @@ class NavItemsRow extends StatelessWidget {
                               indicatorMetrics.style != IndicatorStyle.none)
                           ? 1
                           : 0,
-                      child: Padding(
-                        padding: indicatorMetrics.padding,
-                        child: Center(
-                          child: indicatorMetrics.style.buildIndicator(
-                            context: context,
-                            isSelected: isMoreSelected,
-                            metrics: indicatorMetrics,
-                            animationDuration: animationDuration,
-                            indicatorColors: indicatorColors,
-                          ),
-                        ),
+                      child: indicatorMetrics.style.buildIndicator(
+                        context: context,
+                        isSelected: isMoreSelected,
+                        metrics: indicatorMetrics,
+                        animationDuration: animationDuration,
+                        indicatorColors: indicatorColors,
                       ),
                     ),
                   ),
                 Center(
                   child: Padding(
                     padding: EdgeInsets.only(
-                      bottom: indicatorMetrics.style is LineIndicatorStyle ? 9.0 : 0.0,
+                      top: 3,
+                      left: 3,
+                      right: 3,
+                      bottom: indicatorMetrics.style is LineIndicatorStyle ? 12.0 : 3.0,
                     ),
                     child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
