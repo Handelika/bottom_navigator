@@ -7,7 +7,7 @@ Current stable release: `0.0.4`
 
 A premium, glassmorphic bottom navigation bar for Flutter. Elevate your app's UI with fluid animations, multiple layout variants, and automatic overflow management.
 
-![Bottom Navigator Banner](assets/banner.png)
+<img src="https://raw.githubusercontent.com/handelika/bottom_navigator/main/assets/banner.png" width="800" alt="Bottom Navigator Banner" />
 
 ## ✨ Features
 
@@ -32,7 +32,7 @@ dependencies:
 
 ### Classic Bottom Bar
 
-<img src="assets/classic_navbar.png" height="350" alt="Classic Navigation Bar" />
+<img src="https://raw.githubusercontent.com/handelika/bottom_navigator/main/assets/classic_navbar.png" width="300" alt="Classic Navigation Bar" />
 
 ```dart
 ClassicNavBottomBar(
@@ -49,7 +49,7 @@ ClassicNavBottomBar(
 
 ### Floating Glass Bar
 
-<img src="assets/floating_navbar.png" height="350" alt="Floating Navigation Bar" />
+<img src="https://raw.githubusercontent.com/handelika/bottom_navigator/main/assets/floating_navbar.png" width="300" alt="Floating Navigation Bar" />
 
 ```dart
 FloatingNavBottomBar(
@@ -65,7 +65,7 @@ FloatingNavBottomBar(
 
 ### Docked Bar
 
-<img src="assets/docked_navbar.png" height="350" alt="Docked Navigation Bar" />
+<img src="https://raw.githubusercontent.com/handelika/bottom_navigator/main/assets/docked_navbar.png" width="300" alt="Docked Navigation Bar" />
 
 ```dart
 DockedNavBottomBar(
@@ -77,7 +77,7 @@ DockedNavBottomBar(
 
 ### Notched Bar
 
-<img src="assets/notched_navbar.png" height="350" alt="Notched Navigation Bar" />
+<img src="https://raw.githubusercontent.com/handelika/bottom_navigator/main/assets/notched_navbar.png" width="300" alt="Notched Navigation Bar" />
 
 ```dart
 NotchedNavBottomBar(
