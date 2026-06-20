@@ -88,8 +88,10 @@ class _BottomNavBarState extends State<BottomNavBar> {
       setState(() => _internalIndex = index);
     }
 
-    final itemTapHandler = widget.items[index].onTap;
-    itemTapHandler?.call();
+    if (index >= 0 && index < widget.items.length) {
+      final itemTapHandler = widget.items[index].onTap;
+      itemTapHandler?.call();
+    }
     widget.onTap?.call(index);
 
     if (closeMoreMenu && _isMoreOpen && mounted) {
@@ -321,17 +323,6 @@ class _BottomNavBarState extends State<BottomNavBar> {
                             alignment: Alignment.center,
                             clipBehavior: Clip.none,
                             children: [
-                              if (_effectiveIndex == widget.centerButtonIndex &&
-                                  widget.centerButtonIndex != null)
-                                Positioned.fill(
-                                  child: indicatorMetrics.style.buildIndicator(
-                                    context: context,
-                                    isSelected: true,
-                                    metrics: indicatorMetrics,
-                                    animationDuration: widget.animationDuration,
-                                    indicatorColors: widget.indicatorColors,
-                                  ),
-                                ),
                               widget.centerButton!,
                               if (widget.centerButtonIndex != null)
                                 Positioned.fill(

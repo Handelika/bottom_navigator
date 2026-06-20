@@ -112,7 +112,12 @@ class NavItemsRow extends StatelessWidget {
                   ),
                 Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(3),
+                    padding: EdgeInsets.only(
+                      top: 3,
+                      left: 3,
+                      right: 3,
+                      bottom: indicatorMetrics.style is LineIndicatorStyle ? 12 : 3,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -268,7 +273,11 @@ class NavItemsRow extends StatelessWidget {
                     ),
                   ),
                 Center(
-                  child: Column(
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: indicatorMetrics.style is LineIndicatorStyle ? 9.0 : 0.0,
+                    ),
+                    child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -415,6 +424,7 @@ class NavItemsRow extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
               ],
             ),
           ),
