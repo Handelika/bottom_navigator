@@ -3,7 +3,7 @@
 [![pub package](https://img.shields.io/pub/v/bottom_navigator.svg)](https://pub.dev/packages/bottom_navigator)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-Current stable release: `0.0.2`
+Current stable release: `0.0.4`
 
 A premium, glassmorphic bottom navigation bar for Flutter. Elevate your app's UI with fluid animations, multiple layout variants, and automatic overflow management.
 
@@ -25,12 +25,14 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  bottom_navigator: ^0.0.2
+  bottom_navigator: ^0.0.4
 ```
 
 ## 🛠️ Usage
 
 ### Classic Bottom Bar
+
+![Classic Navigation Bar](assets/classic_navbar.png)
 
 ```dart
 ClassicNavBottomBar(
@@ -47,6 +49,8 @@ ClassicNavBottomBar(
 
 ### Floating Glass Bar
 
+![Floating Navigation Bar](assets/floating_navbar.png)
+
 ```dart
 FloatingNavBottomBar(
   items: navItems,
@@ -61,6 +65,8 @@ FloatingNavBottomBar(
 
 ### Docked Bar
 
+![Docked Navigation Bar](assets/docked_navbar.png)
+
 ```dart
 DockedNavBottomBar(
   items: navItems,
@@ -70,6 +76,8 @@ DockedNavBottomBar(
 ```
 
 ### Notched Bar
+
+![Notched Navigation Bar](assets/notched_navbar.png)
 
 ```dart
 NotchedNavBottomBar(
@@ -101,6 +109,23 @@ BottomNavItem(
 - **Dot-Only Badges**: Omit the `text` parameter (or pass `null`) to render a simple notification dot.
 - **Customization**: Change background colors via `color`, pass custom text styling via `textStyle`, adjust the position using `offset`, or hide it with `showBadge`.
 - **Overflow Support**: If navigation items overflow into the "More" menu, a dot badge will automatically appear on the "More" button if any of the hidden items have active badges.
+
+### Center Button Offset
+
+You can customize the vertical offset of the center action button using the `centerButtonOffset` property. By default, it automatically positions the button (`-25` pixels for Notched and `-30` pixels for Floating/Docked), but you can override this for fine-grained alignment.
+
+```dart
+FloatingNavBottomBar(
+  items: navItems,
+  currentIndex: _selectedIndex,
+  centerButton: FloatingActionButton(
+    onPressed: () {},
+    child: const Icon(Icons.add),
+  ),
+  centerButtonOffset: -20.0, // Adjust the vertical placement of the button
+  onTap: (index) => setState(() => _selectedIndex = index),
+)
+```
 
 ### Indicator Styles
 

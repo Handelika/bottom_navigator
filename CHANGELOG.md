@@ -1,3 +1,9 @@
+## 0.0.4
+
+* Added `centerButtonOffset` parameter to customize the vertical position of the center action button.
+* Fixed a `RangeError` exception in `_BottomNavBarState._onItemTapped` when selecting items or the center button.
+* Fixed navigation indicator line position, rendering it above the item text label if labels are shown, or above the icon if they are hidden.
+
 ## 0.0.3
 
 * Added custom Badge support (`BottomNavBadge`) to navigation items.
